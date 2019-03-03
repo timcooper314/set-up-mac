@@ -4,7 +4,7 @@
 ## Work stuff
 - Company Portal, enroll device
 - Office
-- Teams
+- Teams `brew cask install microsoft-teams`
 - OneDrive
 
 

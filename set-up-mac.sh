@@ -40,31 +40,71 @@ echo "Done ..."
 ## Install software
 echo "Installing software using Homebrew ..."
 
-### Terminal tools
+### Terminal tools and commands
+brew cask install iterm2
+brew install tmux
+brew install tree
 brew install wget
 
 ### Dev tools
 brew install git
-
+# brew install cask docker
 
 ### Productivity
+brew cask install microsoft-teams
 brew cask install alfred
 brew cask install google-chrome
 brew cask install firefox
+
+### Mac tools
+brew cask install scroll-reverser
 
 
 
 ### Text editors
 brew cask install visual-studio-code
+brew cask install sublime-text
 
 
 ### R
+
+#### XQuartz is required for packages that use X11, which is no longer installed on macOS
+brew cask install xquartz
+
+#### Microsoft R Open
+#brew cask install microsoft-r-open
+
+#### R.app is the macOS version of CRAN-R
+brew cask install r-app
+
+#### Linking the BLAS, vecLib, from Apple's Accelerate Framework to make R run multi-threaded where it can by default
+#### https://developer.apple.com/documentation/accelerate/blas
+mv /Library/Frameworks/R.framework/Versions/Current/Resources/lib/libRblas.dylib /Library/Frameworks/R.framework/Versions/Current/Resources/lib/libRblas.dylib.bak
+ln -s /System/Library/Frameworks/Accelerate.framework/Versions/Current/Frameworks/vecLib.framework/Versions/Current/libBLAS.dylib /Library/Frameworks/R.framework/Versions/Current/Resources/lib/libRblas.dylib
+
+#cd /Library/Frameworks/R.framework/Versions/Current/Resources/lib
+#mv libRblas.dylib libRblas.dylib.bak
+
+brew cask install rstudio
 
 
 ### Conda
 
 
+### SQL
+# brew cask install azure-data-studio
 
+
+
+### Blogging
+# brew cask install hugo
+
+
+### Misc
+brew cask install spotify
+
+
+brew cleanup
 echo "... Homebrew software installations complete"
 
 
@@ -107,6 +147,11 @@ echo "Setting up Conda, including 'sandbox' environment for data science ..."
 
 
 echo "... Conda set-up complete"
+
+
+# macOS settings
+
+
 
 
 # End
