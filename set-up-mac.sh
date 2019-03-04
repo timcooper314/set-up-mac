@@ -77,13 +77,35 @@ brew cask install xquartz
 #### R.app is the macOS version of CRAN-R
 brew cask install r-app
 
+
+
+
 #### Linking the BLAS, vecLib, from Apple's Accelerate Framework to make R run multi-threaded where it can by default
 #### https://developer.apple.com/documentation/accelerate/blas
-mv /Library/Frameworks/R.framework/Versions/Current/Resources/lib/libRblas.dylib /Library/Frameworks/R.framework/Versions/Current/Resources/lib/libRblas.dylib.bak
-ln -s /System/Library/Frameworks/Accelerate.framework/Versions/Current/Frameworks/vecLib.framework/Versions/Current/libBLAS.dylib /Library/Frameworks/R.framework/Versions/Current/Resources/lib/libRblas.dylib
 
-#cd /Library/Frameworks/R.framework/Versions/Current/Resources/lib
-#mv libRblas.dylib libRblas.dylib.bak
+
+# According to CRAN -- this doesn't work!
+# https://cran.r-project.org/bin/macosx/RMacOSX-FAQ.html#Which-BLAS-is-used-and-how-can-it-be-changed_003f
+#cd /Library/Frameworks/R.framework/Resources/lib
+# for vecLib use
+#ln -sf libRblas.vecLib.dylib libRblas.dylib
+# for R reference BLAS use
+#ln -sf libRblas.0.dylib libRblas.dylib
+
+# This does work!
+mv \
+  /Library/Frameworks/R.framework/Versions/Current/Resources/lib/libRblas.dylib \
+  /Library/Frameworks/R.framework/Versions/Current/Resources/lib/libRblas.dylib.bak
+ln -sf \
+  /System/Library/Frameworks/Accelerate.framework/Versions/Current/Frameworks/vecLib.framework/Versions/Current/libBLAS.dylib \
+  /Library/Frameworks/R.framework/Versions/Current/Resources/lib/libRblas.dylib
+
+# Not yet sure if need to do anything about the LAPACK
+
+# use faster vecLib library -- this is the same as above, but with out the backup first, although not just for the current version
+#cd /Library/Frameworks/R.framework/Resources/lib
+#ln -sf  /System/Library/Frameworks/Accelerate.framework/Frameworks/vecLib.framework/Versions/Current/libBLAS.dylib libRblas.dylib
+
 
 brew cask install rstudio
 
