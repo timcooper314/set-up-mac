@@ -92,13 +92,19 @@ brew cask install r-app
 # for R reference BLAS use
 #ln -sf libRblas.0.dylib libRblas.dylib
 
-# This does work!
-mv \
-  /Library/Frameworks/R.framework/Versions/Current/Resources/lib/libRblas.dylib \
-  /Library/Frameworks/R.framework/Versions/Current/Resources/lib/libRblas.dylib.bak
+# This does work! Only links for the current version of R, but since this is set-up there is only one version installed
+echo "Linking version of R just installed to the BLAS in the Apple Accelerate Framework"
+# echo "The original link is backed-up to:"
+# echo "  /Library/Frameworks/R.framework/Versions/Current/Resources/lib/libRblas.dylib.bak"
+# mv \
+#   /Library/Frameworks/R.framework/Versions/Current/Resources/lib/libRblas.dylib \
+#   /Library/Frameworks/R.framework/Versions/Current/Resources/lib/libRblas.dylib.bak
 ln -sf \
   /System/Library/Frameworks/Accelerate.framework/Versions/Current/Frameworks/vecLib.framework/Versions/Current/libBLAS.dylib \
   /Library/Frameworks/R.framework/Versions/Current/Resources/lib/libRblas.dylib
+echo "To restore the default BLAS that comes with R use:"
+echo "$ ln -sf /Library/Frameworks/R.framework/Versions/Current/Resources/lib/libRblas.0.dylib /Library/Frameworks/R.framework/Versions/Current/Resources/lib/libRblas.dylib"
+
 
 # Not yet sure if need to do anything about the LAPACK
 
