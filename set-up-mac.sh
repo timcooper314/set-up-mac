@@ -3,11 +3,13 @@
 echo "Shell script to set-up a new Mac"
 
 
-# Configure .bashrc
-echo "Configuring .bashrc ..."
-
-
-echo "... Done"
+# Make my directories and update the path environment variable
+mkdir ~/bin
+mkdir ~/iso
+mkdir ~/lab
+mkdir ~/tmp
+mkdir ~/vm-share
+# update path to include ~/bin
 
 
 # SSH keys
@@ -37,18 +39,19 @@ brew upgrade
 echo "Done ..."
 
 
-## Install software
-echo "Installing software using Homebrew ..."
+## Install packages and software using Homebrew
+echo "Installing packages and software using Homebrew ..."
 
 ### Terminal tools and commands
 brew cask install iterm2
 brew install tmux
 brew install tree
 brew install wget
+brew install rsync
 
 ### Dev tools
 brew install git
-# brew install cask docker
+brew cask install docker
 
 ### Productivity
 brew cask install microsoft-teams
@@ -69,6 +72,7 @@ brew cask install sublime-text
 ### R
 
 #### XQuartz is required for packages that use X11, which is no longer installed on macOS
+echo "Installing XQuartz. You will be prompted for root password."
 brew cask install xquartz
 
 #### Microsoft R Open
@@ -85,6 +89,7 @@ brew cask install r-app
 
 
 # According to CRAN -- this doesn't work!
+# libRblas.vecLib.dylib does not exist (at least not in that location)
 # https://cran.r-project.org/bin/macosx/RMacOSX-FAQ.html#Which-BLAS-is-used-and-how-can-it-be-changed_003f
 #cd /Library/Frameworks/R.framework/Resources/lib
 # for vecLib use
@@ -103,8 +108,7 @@ ln -sf \
   /System/Library/Frameworks/Accelerate.framework/Versions/Current/Frameworks/vecLib.framework/Versions/Current/libBLAS.dylib \
   /Library/Frameworks/R.framework/Versions/Current/Resources/lib/libRblas.dylib
 echo "To restore the default BLAS that comes with R use:"
-echo "$ ln -sf /Library/Frameworks/R.framework/Versions/Current/Resources/lib/libRblas.0.dylib /Library/Frameworks/R.framework/Versions/Current/Resources/lib/libRblas.dylib"
-
+echo "  $ ln -sf /Library/Frameworks/R.framework/Versions/Current/Resources/lib/libRblas.0.dylib /Library/Frameworks/R.framework/Versions/Current/Resources/lib/libRblas.dylib"
 
 # Not yet sure if need to do anything about the LAPACK
 
@@ -116,7 +120,6 @@ echo "$ ln -sf /Library/Frameworks/R.framework/Versions/Current/Resources/lib/li
 brew cask install rstudio
 
 
-### Conda
 
 
 ### SQL
@@ -166,11 +169,19 @@ git config --global alias.ds 'diff --staged'
 echo "... Done"
 
 
-# Vim
-# vim configuration goes here, unless it goes into bashrc?
-
 
 # Conda
+
+### Conda
+echo "Installing Miniconda using their bash script (not Homebrew). You will be prompted multiple times."
+wget https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh -P ~/tmp
+bash ~/tmp/Miniconda3-latest-MacOSX-x86_64.sh
+rm ~/tmp/Miniconda3-latest-MacOSX-x86_64.sh
+
+source .bash_profile
+conda update conda
+conda --version
+
 echo "Setting up Conda, including 'sandbox' environment for data science ..."
 
 
@@ -180,6 +191,18 @@ echo "... Conda set-up complete"
 # macOS settings
 
 
+
+
+
+# Configure .bashrc
+echo "Configuring .bashrc ..."
+
+
+echo "... Done"
+
+
+# Vim
+# vim configuration goes here, unless it goes into bashrc?
 
 
 # End
