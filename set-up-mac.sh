@@ -57,7 +57,7 @@ brew cask install microsoft-teams
 brew cask install alfred
 brew cask install google-chrome
 brew cask install firefox
-# brew cask install dropbox
+brew cask install dropbox
 
 ### R
 
@@ -104,8 +104,8 @@ echo "  $ ln -sf /Library/Frameworks/R.framework/Versions/Current/Resources/lib/
 #brew cask install microsoft-r-open
 
 
-### Python
-# brew install python
+### Python (Homebrew version)
+brew install python
 
 ### Text editors and IDEs
 brew cask install visual-studio-code
@@ -152,6 +152,11 @@ source ~/bin/conda-on.sh
 
 conda update conda
 conda --version
+
+# conda clean???
+# OR ???
+#conda install anaconda-clean ???
+#anaconda-clean ???
 
 echo "Setting up Conda, including sandbox environment(s) for data science ..."
 
@@ -207,16 +212,46 @@ echo "... Done"
 
 
 
+# Dot files
+# References:
+#   - https://www.davidculley.com/dotfiles/
+#   - https://superuser.com/questions/183870/difference-between-bashrc-and-bash-profile/183980#183980
 
+# Configure shell aliases
+# Edit ~/.aliases file
 
-# Configure .bash_profile
-echo "Configuring .bash_profile ..."
-cat <<EOT >> ~/.bash_profile
+# Configure .profile
+echo "Configuring .profile ..."
+cat <<EOT > ~/.profile
 PATH=$PATH:~/bin
 EOT
 echo "... Done"
 
-# Configure Vim by making and adding content to .vimrc
+# Configure .bashrc
+echo "Configuring .bashrc ..."
+cat <<EOT > ~/.bashrc
+source .aliases
+EOT
+echo "... Done"
+
+# Configure .bash_profile
+echo "Configuring .bash_profile ..."
+cat <<EOT > ~/.bash_profile
+if [ -r ~/.profile ]; then . ~/.profile; fi
+case "$-" in *i*) if [ -r ~/.bashrc ]; then . ~/.bashrc; fi;; esac
+EOT
+echo "... Done"
+
+# Z Shell
+# cat <<EOT > ~/.zprofile
+# [[ -e ~/.profile ]] && emulate sh -c 'source ~/.profile'
+# EOT
+
+# cat <<EOT > ~/.zshrc
+# source .aliases
+# EOT
+
+# Configure .vimrc (Vim)
 echo "Configuring .vimrc"
 cat <<EOT > ~/.vimrc
 set number
