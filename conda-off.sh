@@ -5,7 +5,7 @@ CONDA_PATHS="$CONDA_PREFIX/bin:$CONDA_PREFIX/condabin"
 conda activate base
 
 # remove conda from PATH
-export PATH=$( echo $PATH | sed "s#CONDA_PATHS:##" )
+export PATH=$( echo $PATH | sed "s#$CONDA_PATHS:##" )
 
 # delete conda functions
 unset -f $( { compgen -A function conda; compgen -A function __conda; } )
