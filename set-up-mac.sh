@@ -3,33 +3,32 @@
 echo "Shell script to set-up a new Mac"
 
 
-# Make my directories and update the path environment variable
+# Make my directories
+echo "Making my directories under HOME (~), i.e. under $HOME"
 mkdir ~/bin
+mkdir ~/blog
 mkdir ~/iso
 mkdir ~/lab
 mkdir ~/tmp
 mkdir ~/vm-share
-# update path to include ~/bin
 
 
 # SSH keys
 echo "Generating SSH keys"
 echo "You will be prompted for email, file location (enter for default) and passphrase"
-read -p "Enter your email: " USER_EMAIL
-ssh-keygen -t rsa -b 4096 -C "$USER_EMAIL"
+read -p "Enter SSH key email: " SSH_EMAIL
+ssh-keygen -t rsa -b 4096 -C "$SSH_EMAIL"
 echo "Adding SSH private key to ssh-agent and storing passphrase in keychain"
 echo "You will be prompted for the passphrase again"
 eval "$(ssh-agent -s)"
 cat <<EOT >> ~/.ssh/config
-	Host *
-		AddKeysToAgent yes
-		UseKeychain yes
-		IdentityFile ~/.ssh/id_rsa
+Host *
+	AddKeysToAgent yes
+	UseKeychain yes
+	IdentityFile ~/.ssh/id_rsa
 EOT
 ssh-add -K ~/.ssh/id_rsa
 
-
-# Homebrew
 
 ## Install Homebrew itself
 echo "Installing Homebrew ..."
@@ -39,7 +38,7 @@ brew upgrade
 echo "Done ..."
 
 
-## Install packages and software using Homebrew
+## Install packages and software using Homebrew and Conda
 echo "Installing packages and software using Homebrew ..."
 
 ### Terminal tools and commands
@@ -58,31 +57,16 @@ brew cask install microsoft-teams
 brew cask install alfred
 brew cask install google-chrome
 brew cask install firefox
-
-### Mac tools
-brew cask install scroll-reverser
-
-
-
-### Text editors
-brew cask install visual-studio-code
-brew cask install sublime-text
-
+# brew cask install dropbox
 
 ### R
 
-#### XQuartz is required for packages that use X11, which is no longer installed on macOS
+#### XQuartz is required for R packages that use X11, which is no longer installed on macOS
 echo "Installing XQuartz. You will be prompted for root password."
 brew cask install xquartz
 
-#### Microsoft R Open
-#brew cask install microsoft-r-open
-
 #### R.app is the macOS version of CRAN-R
 brew cask install r-app
-
-
-
 
 #### Linking the BLAS, vecLib, from Apple's Accelerate Framework to make R run multi-threaded where it can by default
 #### https://developer.apple.com/documentation/accelerate/blas
@@ -117,39 +101,89 @@ echo "  $ ln -sf /Library/Frameworks/R.framework/Versions/Current/Resources/lib/
 #ln -sf  /System/Library/Frameworks/Accelerate.framework/Frameworks/vecLib.framework/Versions/Current/libBLAS.dylib libRblas.dylib
 
 
+#brew cask install microsoft-r-open
+
+
+### Python
+# brew install python
+
+### Text editors and IDEs
+brew cask install visual-studio-code
+brew cask install sublime-text
 brew cask install rstudio
+# brew cask install pycharm
+brew cask install azure-data-studio
 
-
-
+### Cloud CLIs
+# brew install awscli
+# brew install azure-cli
 
 ### SQL
-# brew cask install azure-data-studio
-
-
+# brew install postgresql
 
 ### Blogging
-# brew cask install hugo
-
+brew install hugo
 
 ### Misc
 brew cask install spotify
 
+### Mac tools
+brew cask install scroll-reverser
 
+### Homebrew installations complete
 brew cleanup
 echo "... Homebrew software installations complete"
 
 
+# Conda
+echo "Installing Miniconda using their bash script (not Homebrew). You will be prompted multiple times."
+wget https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh -P ~/tmp
+bash ~/tmp/Miniconda3-latest-MacOSX-x86_64.sh
+rm ~/tmp/Miniconda3-latest-MacOSX-x86_64.sh
+
+cat <<EOT >> ~/.condarc
+changeps1: False
+EOT
+
+# Conda adds content to .bash_profile, but we want to manually call that when turning Conda on
+mv ~/.bash_profile ~/bin/conda-on.sh
+echo "echo \"Conda ready to use\"" >> ~/bin/conda-on.sh
+source ~/bin/conda-on.sh
+
+conda update conda
+conda --version
+
+echo "Setting up Conda, including sandbox environment(s) for data science ..."
+
+# CONDA installation stuff here
+# JupyterLab
+
+# Sandbox Python environment
+# Python latest
+# numpy, pandas, matplotlib
+# scikit-learn
+# tensorflow 2.0
+# IPythonkernel
+
+# Sandbox R
+# IRkernel
+# tidyverse
+# caret
+
+# Turn off conda
+# !!! Need to get conda-off script !!! Maybe something like:
+# wget <insert github url> -P ~/bin
+source ~/bin/conda-off.sh
 
 
-# Git
+# Configure Git
 echo "Configuring Git settings and aliases ..."
-
+read -p "Enter global default Git email: " GIT_EMAIL
 
 ## Configure settings
 git config --global user.name "Rob Jarvis"
-git config --global user.email rob.jarvis@readify.net
-# git config --global core.editor
-# Setting up editor goes here ...
+git config --global user.email "$GIT_EMAIL"
+git config --global core.editor "vim"
 
 ## Aliases
 git config --global alias.unstage 'reset HEAD --' 
@@ -169,42 +203,26 @@ git config --global alias.ds 'diff --staged'
 echo "... Done"
 
 
-
-# Conda
-
-### Conda
-echo "Installing Miniconda using their bash script (not Homebrew). You will be prompted multiple times."
-wget https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh -P ~/tmp
-bash ~/tmp/Miniconda3-latest-MacOSX-x86_64.sh
-rm ~/tmp/Miniconda3-latest-MacOSX-x86_64.sh
-
-source .bash_profile
-conda update conda
-conda --version
-
-echo "Setting up Conda, including 'sandbox' environment for data science ..."
-
-
-echo "... Conda set-up complete"
-
-
 # macOS settings
 
 
 
 
 
-# Configure .bashrc
-echo "Configuring .bashrc ..."
-
-
+# Configure .bash_profile
+echo "Configuring .bash_profile ..."
+cat <<EOT >> ~/.bash_profile
+PATH=$PATH:~/bin
+EOT
 echo "... Done"
 
-
-# Vim
-# vim configuration goes here, unless it goes into bashrc?
+# Configure Vim by making and adding content to .vimrc
+echo "Configuring .vimrc"
+cat <<EOT > ~/.vimrc
+set number
+syntax enable
+EOT
 
 
 # End
 echo "Mac set-up completed"
-
