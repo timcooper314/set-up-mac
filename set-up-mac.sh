@@ -223,7 +223,7 @@ echo "... Done"
 # Configure .profile
 echo "Configuring .profile ..."
 cat <<EOT > ~/.profile
-PATH=$PATH:~/bin
+PATH=/usr/local/opt/python/libexec/bin:$PATH:~/bin
 EOT
 echo "... Done"
 
