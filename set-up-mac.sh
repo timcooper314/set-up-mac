@@ -114,12 +114,13 @@ brew cask install rstudio
 # brew cask install pycharm
 brew cask install azure-data-studio
 
-### Cloud CLIs
-# brew install awscli
-# brew install azure-cli
+### Cloud command-line interfaces
+brew install awscli
+brew install azure-cli
 
 ### SQL
 # brew install postgresql
+# brew cask install postgres
 
 ### Blogging
 brew install hugo
@@ -153,10 +154,10 @@ source ~/bin/conda-on.sh
 conda update conda
 conda --version
 
-# conda clean???
-# OR ???
+# conda clean --all --yes ???
+# AND ???
 #conda install anaconda-clean ???
-#anaconda-clean ???
+#anaconda-clean --yes ???
 
 echo "Setting up Conda, including sandbox environment(s) for data science ..."
 
