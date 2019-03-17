@@ -212,6 +212,94 @@ echo "... Done"
 # macOS settings
 
 
+# Close System Preferences to prevent conflicts with the settings changes
+# The following is AppleScript called from the command line
+# http://osxdaily.com/2016/08/19/run-applescript-command-line-macos-osascript/
+osascript -e 'tell application "System Preferences" to quit'
+
+
+# Finder: show all filename extensions
+defaults write NSGlobalDomain AppleShowAllExtensions -bool true
+
+# Display full POSIX path as Finder window title
+defaults write com.apple.finder _FXShowPosixPathInTitle -bool true
+
+# Finder: allow quitting via ⌘ + Q; doing so will also hide desktop icons
+defaults write com.apple.finder QuitMenuItem -bool true
+
+# Use list view in all Finder windows by default
+# Four-letter codes for the other view modes: `icnv`, `clmv`, `Flwv`
+defaults write com.apple.finder FXPreferredViewStyle -string "Nlsv"
+
+
+
+
+killall -HUP Finder
+
+
+# Remove the auto-hiding Dock delay
+defaults write com.apple.dock autohide-delay -float 0
+
+# Automatically hide and show the Dock
+defaults write com.apple.dock autohide -bool true
+
+# Only Show Open Applications In The Dock  
+defaults write com.apple.dock static-only -bool true
+
+# Minimise to Dock using "scale" effect
+defaults write com.apple.dock mineffect -string scale
+
+defaults write com.apple.dock orientation -string left
+
+defaults write com.apple.dock magnification -bool false
+
+defaults write com.apple.dock show-process-indicators -bool false
+
+defaults write com.apple.dock tilesize -float 40
+
+defaults write com.apple.dock show-recents -bool false
+
+# Don't minimize windows into their application’s icon
+defaults write com.apple.dock minimize-to-application -bool false
+
+
+killall Dock
+
+
+
+
+# Avoid creating .DS_Store files on network or USB volumes
+defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true
+defaults write com.apple.desktopservices DSDontWriteUSBStores -bool true
+
+
+
+
+# Use plain text mode for new TextEdit documents
+defaults write com.apple.TextEdit RichText -int 0
+
+
+
+# Require password immediately after sleep or screen saver begins"
+defaults write com.apple.screensaver askForPassword -int 1
+defaults write com.apple.screensaver askForPasswordDelay -int 0
+
+
+
+# Save screenshots to the desktop
+defaults write com.apple.screencapture location -string "$HOME/Desktop"
+
+# Save screenshots in PNG format (other options: BMP, GIF, JPG, PDF, TIFF)
+defaults write com.apple.screencapture type -string "png"
+
+
+
+
+# Disable the “Are you sure you want to open this application?” dialog
+defaults write com.apple.LaunchServices LSQuarantine -bool false
+
+
+
 
 # Dot files
 # References:
