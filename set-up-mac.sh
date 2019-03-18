@@ -111,7 +111,7 @@ brew install python
 brew cask install visual-studio-code
 brew cask install sublime-text
 brew cask install rstudio
-# brew cask install pycharm
+brew cask install pycharm
 brew cask install azure-data-studio
 
 ### Cloud command-line interfaces
@@ -130,6 +130,7 @@ brew cask install spotify
 
 ### Mac tools
 brew cask install scroll-reverser
+brew cask install sizeup
 
 ### Homebrew installations complete
 brew cleanup
@@ -298,6 +299,10 @@ defaults write com.apple.screencapture type -string "png"
 # Disable the “Are you sure you want to open this application?” dialog
 defaults write com.apple.LaunchServices LSQuarantine -bool false
 
+
+
+# Start SizeUp at login
+defaults write com.irradiatedsoftware.SizeUp StartAtLogin -bool true
 
 
 
