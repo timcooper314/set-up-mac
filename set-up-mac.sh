@@ -178,8 +178,7 @@ echo "Setting up Conda, including sandbox environment(s) for data science ..."
 # caret
 
 # Turn off conda
-# !!! Need to get conda-off script !!! Maybe something like:
-# wget <insert github url> -P ~/bin
+wget https://raw.githubusercontent.com/jarvisrob/set-up-mac/master/conda-off.sh -P ~/bin 
 source ~/bin/conda-off.sh
 
 
