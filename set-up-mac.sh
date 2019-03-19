@@ -7,6 +7,7 @@ echo "Shell script to set-up a new Mac"
 echo "Making my directories under HOME (~), i.e. under $HOME"
 mkdir ~/bin
 mkdir ~/blog
+mkdir ~/conda-env-yml
 mkdir ~/iso
 mkdir ~/lab
 mkdir ~/tmp
@@ -155,27 +156,33 @@ source ~/bin/conda-on.sh
 conda update conda
 conda --version
 
-# conda clean --all --yes ???
-# AND ???
-#conda install anaconda-clean ???
-#anaconda-clean --yes ???
-
 echo "Setting up Conda, including sandbox environment(s) for data science ..."
 
-# CONDA installation stuff here
-# JupyterLab
+# JupyterLab, configured so it can work across Conda environments
+conda activate base
+conda install -c conda-forge jupyterlab
+conda install -n base nb_conda_kernels
 
 # Sandbox Python environment
-# Python latest
-# numpy, pandas, matplotlib
-# scikit-learn
-# tensorflow 2.0
-# IPythonkernel
+wget https://raw.githubusercontent.com/jarvisrob/set-up-mac/master/python-sandbox-env.yml -P ~/conda-env-yml
+conda env create --file ~/conda-env-yml/python-sandbox-env.yml
+conda activate python-sandbox
+# TensorFlow 2 not yet available via Conda
+pip install tensorflow==2.0.0-alpha0
 
-# Sandbox R
+# Sandbox R environment
 # IRkernel
 # tidyverse
 # caret
+conda create --name r-sandbox
+
+
+
+
+conda activate base
+#conda install anaconda-clean
+#anaconda-clean --yes
+conda clean --all --yes
 
 # Turn off conda
 wget https://raw.githubusercontent.com/jarvisrob/set-up-mac/master/conda-off.sh -P ~/bin 
