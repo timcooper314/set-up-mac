@@ -101,12 +101,6 @@ echo "  $ ln -sf /Library/Frameworks/R.framework/Versions/Current/Resources/lib/
 #ln -sf  /System/Library/Frameworks/Accelerate.framework/Frameworks/vecLib.framework/Versions/Current/libBLAS.dylib libRblas.dylib
 
 
-# Install IRkernel so can use R in Jupyter
-wget https://raw.githubusercontent.com/jarvisrob/set-up-mac/master/install-irkernel.R -P ~/tmp
-Rscript --verbose --vanilla ~/tmp/install-irkernel.R
-rm ~/tmp/install-irkernel.R
-
-
 #brew cask install microsoft-r-open
 
 
@@ -161,7 +155,7 @@ source ~/bin/conda-on.sh
 conda update conda
 conda --version
 
-echo "Setting up Conda, including sandbox environment(s) for data science ..."
+echo "Setting up Conda and Jupyter, including sandbox environment(s) for data science ..."
 
 # JupyterLab, installed into base env, configured so it can work across Conda environments
 # At the moment, JupyterLab needs to be installed from conda-forge
@@ -176,6 +170,12 @@ conda activate python-sandbox
 # TensorFlow 2 not yet available via Conda
 pip install tensorflow==2.0.0-alpha0
 rm ~/tmp/python-sandbox-env.yml
+
+# Install IRkernel so can use R in Jupyter
+# This needs to be done while conda base environment is active, because it needs to see the Jupyter installation
+wget https://raw.githubusercontent.com/jarvisrob/set-up-mac/master/install-irkernel.R -P ~/tmp
+Rscript --verbose --vanilla ~/tmp/install-irkernel.R
+rm ~/tmp/install-irkernel.R
 
 # Clean up conda
 conda activate base
