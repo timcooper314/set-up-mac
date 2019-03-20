@@ -179,8 +179,6 @@ rm ~/tmp/install-irkernel.R
 
 # Clean up conda
 conda activate base
-#conda install anaconda-clean
-#anaconda-clean --yes
 conda clean --all --yes
 
 echo "List of conda environments now on your system"
