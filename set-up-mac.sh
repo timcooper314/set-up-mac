@@ -7,7 +7,6 @@ echo "Shell script to set-up a new Mac"
 echo "Making my directories under HOME (~), i.e. under $HOME"
 mkdir ~/bin
 mkdir ~/blog
-mkdir ~/conda-env-yml
 mkdir ~/iso
 mkdir ~/lab
 mkdir ~/tmp
@@ -102,6 +101,12 @@ echo "  $ ln -sf /Library/Frameworks/R.framework/Versions/Current/Resources/lib/
 #ln -sf  /System/Library/Frameworks/Accelerate.framework/Frameworks/vecLib.framework/Versions/Current/libBLAS.dylib libRblas.dylib
 
 
+# Install IRkernel so can use R in Jupyter
+wget https://raw.githubusercontent.com/jarvisrob/set-up-mac/master/install-irkernel.R -P ~/tmp
+Rscript ~/tmp/install-irkernel.R
+rm ~/tmp/install-irkernel.R
+
+
 #brew cask install microsoft-r-open
 
 
@@ -158,31 +163,28 @@ conda --version
 
 echo "Setting up Conda, including sandbox environment(s) for data science ..."
 
-# JupyterLab, configured so it can work across Conda environments
+# JupyterLab, installed into base env, configured so it can work across Conda environments
+# At the moment, JupyterLab needs to be installed from conda-forge
 conda activate base
-conda install -c conda-forge jupyterlab
-conda install -n base nb_conda_kernels
+conda install --channel conda-forge --name base --yes jupyterlab
+conda install --name base --yes nb_conda_kernels
 
 # Sandbox Python environment
-wget https://raw.githubusercontent.com/jarvisrob/set-up-mac/master/python-sandbox-env.yml -P ~/conda-env-yml
-conda env create --file ~/conda-env-yml/python-sandbox-env.yml
+wget https://raw.githubusercontent.com/jarvisrob/set-up-mac/master/python-sandbox-env.yml -P ~/tmp
+conda env create --file ~/tmp/python-sandbox-env.yml
 conda activate python-sandbox
 # TensorFlow 2 not yet available via Conda
 pip install tensorflow==2.0.0-alpha0
+rm ~/tmp/python-sandbox-env.yml
 
-# Sandbox R environment
-# IRkernel
-# tidyverse
-# caret
-conda create --name r-sandbox
-
-
-
-
+# Clean up conda
 conda activate base
 #conda install anaconda-clean
 #anaconda-clean --yes
 conda clean --all --yes
+
+echo "List of conda environments now on your system"
+conda info --envs
 
 # Turn off conda
 wget https://raw.githubusercontent.com/jarvisrob/set-up-mac/master/conda-off.sh -P ~/bin 
