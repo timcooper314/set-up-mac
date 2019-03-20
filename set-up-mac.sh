@@ -103,7 +103,7 @@ echo "  $ ln -sf /Library/Frameworks/R.framework/Versions/Current/Resources/lib/
 
 # Install IRkernel so can use R in Jupyter
 wget https://raw.githubusercontent.com/jarvisrob/set-up-mac/master/install-irkernel.R -P ~/tmp
-Rscript ~/tmp/install-irkernel.R
+Rscript --verbose --vanilla ~/tmp/install-irkernel.R
 rm ~/tmp/install-irkernel.R
 
 

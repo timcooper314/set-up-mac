@@ -15,7 +15,11 @@ kernel_name <-
     fixed = TRUE
   )
 
-install.packages("IRkernel")
+install.packages(
+  "IRkernel",
+  repos = "https://cloud.r-project.org/"
+)
+
 IRkernel::installspec(
   name = kernel_name,
   displayname = version$version.string
