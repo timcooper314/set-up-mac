@@ -1,0 +1,2 @@
+# Disable automatic changing of the command prompt
+changeps1: False
