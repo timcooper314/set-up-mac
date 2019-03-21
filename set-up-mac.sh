@@ -11,6 +11,8 @@ mkdir ~/iso
 mkdir ~/lab
 mkdir ~/tmp
 mkdir ~/vm-share
+echo "Directory structure under ~ is now:"
+ls -d */
 
 
 # SSH keys
@@ -26,6 +28,7 @@ Host *
 	AddKeysToAgent yes
 	UseKeychain yes
 	IdentityFile ~/.ssh/id_rsa
+
 EOT
 ssh-add -K ~/.ssh/id_rsa
 
@@ -132,6 +135,7 @@ rm ~/tmp/Miniconda3-latest-MacOSX-x86_64.sh
 
 cat <<EOT >> ~/.condarc
 changeps1: False
+
 EOT
 
 # Conda adds content to .bash_profile, but we want to manually call that when turning Conda on
@@ -311,6 +315,8 @@ defaults write com.irradiatedsoftware.SizeUp StartAtLogin -bool true
 echo "Configuring .profile ..."
 cat <<EOT > ~/.profile
 PATH=/usr/local/opt/python/libexec/bin:$PATH:~/bin
+# Prompt config goes here
+
 EOT
 echo "... Done"
 
@@ -318,24 +324,41 @@ echo "... Done"
 echo "Configuring .bashrc ..."
 cat <<EOT > ~/.bashrc
 source .aliases
+
 EOT
 echo "... Done"
 
 # Configure .bash_profile
 echo "Configuring .bash_profile ..."
 cat <<EOT > ~/.bash_profile
-if [ -r ~/.profile ]; then . ~/.profile; fi
-case "$-" in *i*) if [ -r ~/.bashrc ]; then . ~/.bashrc; fi;; esac
+if [ -r ~/.profile ]
+then
+	. ~/.profile
+fi
+
+# Checking if interactive shell, $- = current option flags for the active shell
+# If "i" is there, then it's an interactive shell, and we need to explicitly source .bashrc
+case "$-" in
+	*i*)
+		if [ -r ~/.bashrc ]
+		then
+			. ~/.bashrc
+		fi
+		;;
+esac
+
 EOT
 echo "... Done"
 
 # Z Shell
 # cat <<EOT > ~/.zprofile
 # [[ -e ~/.profile ]] && emulate sh -c 'source ~/.profile'
+
 # EOT
 
 # cat <<EOT > ~/.zshrc
 # source .aliases
+
 # EOT
 
 # Configure .vimrc (Vim)
@@ -343,6 +366,7 @@ echo "Configuring .vimrc"
 cat <<EOT > ~/.vimrc
 set number
 syntax enable
+
 EOT
 
 
