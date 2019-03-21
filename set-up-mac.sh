@@ -1,6 +1,11 @@
 #!/bin/bash
 
+# This is my set-up, my way
+# If you're not me, *really* think before running this script--it's all on you
+
 echo "Shell script to set-up a new Mac"
+echo "You were warned: This is *my* set-up, *my* way!"
+echo "Here we go ..."
 
 
 # Make my directories
@@ -41,34 +46,34 @@ brew upgrade
 echo "Done ..."
 
 
-## Install packages and software using Homebrew and Conda
+# Install packages and software using Homebrew
 echo "Installing packages and software using Homebrew ..."
 
-### Terminal tools and commands
+# Terminal tools and commands
 brew cask install iterm2
 brew install tmux
 brew install tree
 brew install wget
 brew install rsync
 
-### Dev tools
+# Dev tools
 brew install git
 brew cask install docker
 
-### Productivity
+# Productivity
 brew cask install microsoft-teams
 brew cask install alfred
 brew cask install google-chrome
 brew cask install firefox
 brew cask install dropbox
 
-### R
+# R
 
-#### XQuartz is required for R packages that use X11, which is no longer installed on macOS
+# XQuartz is required for R packages that use X11, which is no longer installed on macOS
 echo "Installing XQuartz. You will be prompted for root password."
 brew cask install xquartz
 
-#### R.app is the macOS version of CRAN-R
+# R.app is the macOS version of CRAN-R
 brew cask install r-app
 
 # Linking the BLAS (vecLib) from Apple's Accelerate Framework to make R run multi-threaded where it can by default
@@ -94,37 +99,38 @@ echo "  $ ln -sf /Library/Frameworks/R.framework/Versions/Current/Resources/lib/
 # Uncomment when/if decide want it installed too
 # brew cask install microsoft-r-open
 
-### Python (Homebrew version)
+# Python (Homebrew version)
 brew install python
 
-### Text editors and IDEs
+# Text editors and IDEs
 brew cask install visual-studio-code
 brew cask install sublime-text
 brew cask install rstudio
 brew cask install pycharm
 brew cask install azure-data-studio
 
-### Cloud command-line interfaces
+# Cloud command-line interfaces
 brew install awscli
 brew install azure-cli
 
-### SQL
+# SQL
+# Still thinking these over, uncomment when ready
 # brew install postgresql
 # brew cask install postgres
 
-### Blogging
+# Blogging
 brew install hugo
 
-### Misc
+# Misc
 brew cask install spotify
 
-### Mac tools
+# Mac tools
 brew cask install scroll-reverser
 brew cask install sizeup
 
-### Homebrew installations complete
+# Homebrew installations complete
 brew cleanup
-echo "... Homebrew software installations complete"
+echo "Homebrew software installations complete"
 
 
 # Conda
@@ -133,12 +139,8 @@ wget https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh -P ~
 bash ~/tmp/Miniconda3-latest-MacOSX-x86_64.sh
 rm ~/tmp/Miniconda3-latest-MacOSX-x86_64.sh
 
-cat <<EOT >> ~/.condarc
-changeps1: False
-
-EOT
-
 # Conda adds content to .bash_profile, but we want to manually call that when turning Conda on
+# So put all that stuff into another script, and we'll get .bash_profile later
 mv ~/.bash_profile ~/bin/conda-on.sh
 echo "echo \"Conda ready to use\"" >> ~/bin/conda-on.sh
 source ~/bin/conda-on.sh
@@ -184,12 +186,12 @@ source ~/bin/conda-off.sh
 echo "Configuring Git settings and aliases ..."
 read -p "Enter global default Git email: " GIT_EMAIL
 
-## Configure settings
+# Configure Git settings
 git config --global user.name "Rob Jarvis"
 git config --global user.email "$GIT_EMAIL"
 git config --global core.editor "vim"
 
-## Aliases
+# Git aliases
 git config --global alias.unstage 'reset HEAD --' 
 git config --global alias.unmod 'checkout --' 
 git config --global alias.last 'log -1 HEAD' 
@@ -208,13 +210,15 @@ echo "... Done"
 
 
 # macOS settings
+echo "macOS settings being configured"
 
-
+echo "First closing System Preferences window if open to avoid conflicts"
 # Close System Preferences to prevent conflicts with the settings changes
 # The following is AppleScript called from the command line
 # http://osxdaily.com/2016/08/19/run-applescript-command-line-macos-osascript/
 osascript -e 'tell application "System Preferences" to quit'
 
+echo "Finder settings"
 
 # Finder: show all filename extensions
 defaults write NSGlobalDomain AppleShowAllExtensions -bool true
@@ -229,11 +233,10 @@ defaults write com.apple.finder QuitMenuItem -bool true
 # Four-letter codes for the other view modes: `icnv`, `clmv`, `Flwv`
 defaults write com.apple.finder FXPreferredViewStyle -string "Nlsv"
 
-
-
-
 killall -HUP Finder
 
+
+echo "Dock settings"
 
 # Remove the auto-hiding Dock delay
 defaults write com.apple.dock autohide-delay -float 0
@@ -260,29 +263,27 @@ defaults write com.apple.dock show-recents -bool false
 # Don't minimize windows into their application’s icon
 defaults write com.apple.dock minimize-to-application -bool false
 
-
 killall Dock
 
 
-
-
+echo ".DS_Store files settings"
 # Avoid creating .DS_Store files on network or USB volumes
 defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true
 defaults write com.apple.desktopservices DSDontWriteUSBStores -bool true
 
 
-
-
+echo "TextEdit settings"
 # Use plain text mode for new TextEdit documents
 defaults write com.apple.TextEdit RichText -int 0
 
 
-
+echo "Screen saver password settings"
 # Require password immediately after sleep or screen saver begins"
 defaults write com.apple.screensaver askForPassword -int 1
 defaults write com.apple.screensaver askForPasswordDelay -int 0
 
 
+echo "Screenshot settings"
 
 # Save screenshots to the desktop
 defaults write com.apple.screencapture location -string "$HOME/Desktop"
@@ -291,16 +292,14 @@ defaults write com.apple.screencapture location -string "$HOME/Desktop"
 defaults write com.apple.screencapture type -string "png"
 
 
-
-
+echo "Dialog settings"
 # Disable the “Are you sure you want to open this application?” dialog
 defaults write com.apple.LaunchServices LSQuarantine -bool false
 
 
-
+echo "SizeUp settings"
 # Start SizeUp at login
 defaults write com.irradiatedsoftware.SizeUp StartAtLogin -bool true
-
 
 
 # Dot files
@@ -308,47 +307,27 @@ defaults write com.irradiatedsoftware.SizeUp StartAtLogin -bool true
 #   - https://www.davidculley.com/dotfiles/
 #   - https://superuser.com/questions/183870/difference-between-bashrc-and-bash-profile/183980#183980
 
-# Configure shell aliases
-# Edit ~/.aliases file
+echo "Download dot files"
 
-# Configure .profile
-echo "Configuring .profile ..."
-cat <<EOT > ~/.profile
-PATH=/usr/local/opt/python/libexec/bin:$PATH:~/bin
-# Prompt config goes here
+# .aliases
+echo "Downloading .aliases"
+wget https://raw.githubusercontent.com/jarvisrob/set-up-mac/master/.aliases -P ~
+cat ~/.aliases
 
-EOT
-echo "... Done"
+# .profile
+echo "Downloading .profile"
+wget https://raw.githubusercontent.com/jarvisrob/set-up-mac/master/.profile -P ~
+cat ~/.profile
 
-# Configure .bashrc
-echo "Configuring .bashrc ..."
-cat <<EOT > ~/.bashrc
-source .aliases
+# .bashrc
+echo "Downloading .bashrc"
+wget https://raw.githubusercontent.com/jarvisrob/set-up-mac/master/.bashrc -P ~
+cat ~/.bashrc
 
-EOT
-echo "... Done"
-
-# Configure .bash_profile
-echo "Configuring .bash_profile ..."
-cat <<EOT > ~/.bash_profile
-if [ -r ~/.profile ]
-then
-	. ~/.profile
-fi
-
-# Checking if interactive shell, $- = current option flags for the active shell
-# If "i" is there, then it's an interactive shell, and we need to explicitly source .bashrc
-case "$-" in
-	*i*)
-		if [ -r ~/.bashrc ]
-		then
-			. ~/.bashrc
-		fi
-		;;
-esac
-
-EOT
-echo "... Done"
+# .bash_profile
+echo "Downloading .bash_profile"
+wget https://raw.githubusercontent.com/jarvisrob/set-up-mac/master/.bash_profile -P ~
+cat ~/.bash_profile
 
 # Z Shell
 # cat <<EOT > ~/.zprofile
@@ -360,15 +339,20 @@ echo "... Done"
 # source .aliases
 
 # EOT
+# cat ~/.zprofile
 
-# Configure .vimrc (Vim)
-echo "Configuring .vimrc"
-cat <<EOT > ~/.vimrc
-set number
-syntax enable
+# .vimrc (Vim)
+echo "Downloading .vimrc"
+wget https://raw.githubusercontent.com/jarvisrob/set-up-mac/master/.vimrc -P ~
+cat ~/.vimrc
 
-EOT
-
+# .condarc (Conda)
+echo "Downloading .condarc"
+wget https://raw.githubusercontent.com/jarvisrob/set-up-mac/master/.condarc -P ~
+cat ~/.condarc
 
 # End
-echo "Mac set-up completed"
+echo "Mac set-up completed--enjoy!"
+echo "Close terminal and re-open to get everything"
+echo "It's probably a good idea to reboot now"
+echo ""
