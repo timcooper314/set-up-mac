@@ -16,7 +16,7 @@ mkdir ~/iso
 mkdir ~/lab
 mkdir ~/tmp
 mkdir ~/vm-share
-echo "Directory structure under ~ is now:"
+echo "Directory structure under HOME (~) is now:"
 ls -d */
 
 
