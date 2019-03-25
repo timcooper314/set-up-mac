@@ -49,6 +49,15 @@ echo "Done ..."
 # Install packages and software using Homebrew
 echo "Installing packages and software using Homebrew ..."
 
+# Bash
+echo "First, the latest version of bash"
+brew install bash
+echo "You will now be prompted for root password *twice*"
+echo "First time to add the new version of bash to /etc/shells"
+sudo bash -c 'echo /usr/local/bin/bash >> /etc/shells'
+echo "Second time to change the default shell to the new version of bash"
+chsh -s /usr/local/bin/bash
+
 # Terminal tools and commands
 brew cask install iterm2
 brew install tmux
