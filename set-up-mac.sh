@@ -62,6 +62,7 @@ chsh -s /usr/local/bin/bash
 
 # Terminal tools and commands
 brew cask install iterm2
+brew install bash-completion
 brew install tmux
 brew install tree
 brew install wget
