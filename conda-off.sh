@@ -13,8 +13,7 @@ unset -f $( { compgen -A function conda; compgen -A function __conda; } )
 # delete conda variables
 unset ${!CONDA@}
 
-# Remove conda from prompt
-# Had to turn off conda prompt modification in .condarc, currently this doesn't show in the prompt anyway
-export CONDA_PROMPT_MODIFIER="(conda off)"
+# Set "name" of current environment to "conda off" so can be used in my custom prompt
+export CONDA_DEFAULT_ENV="conda off"
 
 echo "Conda now off"
