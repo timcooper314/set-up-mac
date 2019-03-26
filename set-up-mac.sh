@@ -70,6 +70,7 @@ brew install rsync
 
 # Dev tools
 brew install git
+brew install bash-git-prompt
 brew cask install docker
 
 # Productivity
