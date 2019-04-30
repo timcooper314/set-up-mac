@@ -122,9 +122,10 @@ brew cask install rstudio
 brew cask install pycharm
 brew cask install azure-data-studio
 
-# Cloud command-line interfaces
+# Cloud command-line interfaces and tools
 brew install awscli
 brew install azure-cli
+brew cask install microsoft-azure-storage-explorer
 
 # SQL
 # Still thinking these over, uncomment when ready
