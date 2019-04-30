@@ -175,6 +175,7 @@ conda env create --file ~/tmp/python-sandbox-env.yml
 conda activate python-sandbox
 # TensorFlow 2 not yet available via Conda
 pip install tensorflow==2.0.0-alpha0
+pip install pysnooper
 rm ~/tmp/python-sandbox-env.yml
 
 # Install IRkernel so can use R in Jupyter
