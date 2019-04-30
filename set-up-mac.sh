@@ -365,6 +365,12 @@ echo "Downloading .condarc"
 wget https://raw.githubusercontent.com/jarvisrob/set-up-mac/master/.condarc -P ~
 cat ~/.condarc
 
+# .git-prompt-colors.sh (bash-git-prompt)
+echo "Downloading .git-prompt-colors.sh"
+wget https://raw.githubusercontent.com/jarvisrob/set-up-mac/master/.git-prompt-colors.sh -P ~
+cat ~/.git-prompt-colors.sh
+
+
 # End
 echo "Mac set-up completed--enjoy!"
 echo "Close terminal and re-open to get everything"
