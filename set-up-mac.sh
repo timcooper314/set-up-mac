@@ -115,6 +115,9 @@ echo "  $ ln -sf /Library/Frameworks/R.framework/Versions/Current/Resources/lib/
 # Python (Homebrew version)
 brew install python
 
+# Node.js (required for JupyterLab extensions)
+brew install node
+
 # Text editors and IDEs
 brew cask install visual-studio-code
 brew cask install sublime-text
