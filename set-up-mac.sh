@@ -174,13 +174,15 @@ conda install --name base --yes nb_conda_kernels
 wget https://raw.githubusercontent.com/jarvisrob/set-up-mac/master/python-sandbox-env.yml -P ~/tmp
 conda env create --file ~/tmp/python-sandbox-env.yml
 conda activate python-sandbox
-# TensorFlow 2 not yet available via Conda
+# TensorFlow 2 not yet available via conda or conda-forge
 pip install tensorflow==2.0.0-alpha0
 pip install pysnooper
+conda activate base
 rm ~/tmp/python-sandbox-env.yml
 
 # Install IRkernel so can use R in Jupyter
 # This needs to be done while conda base environment is active, because it needs to see the Jupyter installation
+conda activate base
 wget https://raw.githubusercontent.com/jarvisrob/set-up-mac/master/install-irkernel.R -P ~/tmp
 Rscript --verbose --vanilla ~/tmp/install-irkernel.R
 rm ~/tmp/install-irkernel.R
