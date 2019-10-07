@@ -60,8 +60,8 @@ alias change="code ~/.zshrc"
 # Re-run source command on .zshrc to update current terminal session with new settings
 alias update="source ~/.zshrc"
 # View files/folder alias using colorsls (https://github.com/athityakumar/colorls)
-alias l='colorls --group-directories-first --almost-all'
-alias ll='colorls --group-directories-first --almost-all --long'
+#alias l='colorls --group-directories-first --almost-all'
+#alias ll='colorls --group-directories-first --almost-all --long'
 # Clear terminal
 alias c='clear'
 
@@ -79,3 +79,5 @@ prompt pure
 
 # Add colors to terminal commands (green command means that the command is valid)
 source /usr/local/share/zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh

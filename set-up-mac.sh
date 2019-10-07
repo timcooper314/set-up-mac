@@ -356,7 +356,12 @@ echo "Installing pure-prompt ..."
 npm install --global pure-prompt
 
 # z directory navigation
-wget https://raw.githubusercontent.com/rupa/z/master/z.sh -P /usr/local/etc/profile.d/z.sh
+echo "Installing easy directory navigation in Zsh ..."
+wget https://raw.githubusercontent.com/rupa/z/master/z.sh -P /usr/local/etc/profile.d
+
+# Zsh auto suggestions
+echo "Installing Zsh auto suggestions ..."
+git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions
 
 # cat <<EOT > ~/.zprofile
 # [[ -e ~/.profile ]] && emulate sh -c 'source ~/.profile'
