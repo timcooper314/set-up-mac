@@ -204,31 +204,13 @@ source ~/bin/conda-off.sh
 
 
 # Configure Git
-echo "Configuring Git settings and aliases ..."
-read -p "Enter global default Git email: " GIT_EMAIL
+echo "Configuring Git settings ..."
 
 # Configure Git settings
 git config --global user.name "mitchstockdale"
-git config --global user.email "$GIT_EMAIL"
 git config --global core.editor "vim"
 
-# Git aliases
-#git config --global alias.unstage 'reset HEAD --' 
-#git config --global alias.unmod 'checkout --' 
-#git config --global alias.last 'log -1 HEAD' 
-#git config --global alias.pub 'push -u origin HEAD' 
-#git config --global alias.setemail 'config user.email mitchstockdale@users.noreply.github.com' 
-#git config --global alias.cm 'commit -m' 
-#git config --global alias.co checkout 
-#git config --global alias.cob 'checkout -b' 
-#git config --global alias.aa 'add -A' 
-#git config --global alias.s status 
-#git config --global alias.ss 'status -s' 
-#git config --global alias.dm diff 
-#git config --global alias.ds 'diff --staged'
-
 echo "... Done"
-
 
 # macOS settings
 echo "macOS settings being configured"
@@ -255,7 +237,6 @@ defaults write com.apple.finder QuitMenuItem -bool true
 defaults write com.apple.finder FXPreferredViewStyle -string "Nlsv"
 
 killall -HUP Finder
-
 
 echo "Dock settings"
 
@@ -286,23 +267,19 @@ defaults write com.apple.dock minimize-to-application -bool false
 
 killall Dock
 
-
 echo ".DS_Store files settings"
 # Avoid creating .DS_Store files on network or USB volumes
 defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true
 defaults write com.apple.desktopservices DSDontWriteUSBStores -bool true
 
-
 echo "TextEdit settings"
 # Use plain text mode for new TextEdit documents
 defaults write com.apple.TextEdit RichText -int 0
-
 
 echo "Screen saver password settings"
 # Require password immediately after sleep or screen saver begins"
 defaults write com.apple.screensaver askForPassword -int 1
 defaults write com.apple.screensaver askForPasswordDelay -int 0
-
 
 echo "Screenshot settings"
 
@@ -311,7 +288,6 @@ defaults write com.apple.screencapture location -string "$HOME/Desktop"
 
 # Save screenshots in PNG format (other options: BMP, GIF, JPG, PDF, TIFF)
 defaults write com.apple.screencapture type -string "png"
-
 
 echo "Dialog settings"
 # Disable the “Are you sure you want to open this application?” dialog
@@ -352,6 +328,7 @@ echo "First time to add the new version of bash to /etc/shells"
 sudo bash -c 'echo /usr/local/bin/zsh >> /etc/shells'
 echo "Second time to change the default shell to the new version of zsh"
 chsh -s /usr/local/bin/zsh
+
 echo "Installing pure-prompt ..."
 npm install --global pure-prompt
 
@@ -363,16 +340,11 @@ wget https://raw.githubusercontent.com/rupa/z/master/z.sh -P /usr/local/etc/prof
 echo "Installing Zsh auto suggestions ..."
 git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions
 
-# cat <<EOT > ~/.zprofile
-# [[ -e ~/.profile ]] && emulate sh -c 'source ~/.profile'
-
-# EOT
-
-# cat <<EOT > ~/.zshrc
-# source .aliases
-
-# EOT
-# cat ~/.zprofile
+# Install folder/file icon pack for zsh/hyper
+brew tap homebrew/cask-fonts
+brew cask install font-hack-nerd-font
+brew cask install font-fontawesome
+sudo gem install colorls
 
 # .vimrc (Vim)
 echo "Downloading .vimrc"
@@ -388,7 +360,6 @@ cat ~/.condarc
 echo "Downloading .git-prompt-colors.sh"
 wget https://raw.githubusercontent.com/mitchstockdale/set-up-mac/master/.git-prompt-colors.sh -P ~
 cat ~/.git-prompt-colors.sh
-
 
 # End
 echo "Mac set-up completed--enjoy!"
