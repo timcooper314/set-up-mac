@@ -1,4 +1,19 @@
 #------------------
+# Zsh Config
+#------------------
+
+HISTFILE=~/.histfile
+HISTSIZE=10000
+SAVEHIST=5000
+setopt appendhistory autocd beep extendedglob nomatch notify
+bindkey -e
+
+# Auto-completion
+zstyle :compinstall filename '~/.zshrc'
+
+autoload -Uz compinit
+compinit
+#------------------
 # Shell Variables
 #------------------
 
@@ -17,7 +32,7 @@ autoload -U add-zsh-hook
 #------------------
 
 # Allow the use of the z plugin to easily navigate directories
-. /usr/local/etc/profile.d/z.sh
+source /usr/local/etc/profile.d/z.sh
 
 # Set pure as a prompt
 autoload -U promptinit
