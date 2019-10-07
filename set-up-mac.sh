@@ -13,11 +13,11 @@ echo "Here we go ..."
 # Make my directories
 echo "Making my directories under HOME (~), i.e. under $HOME"
 mkdir ~/bin
-mkdir ~/blog
 mkdir ~/iso
 mkdir ~/lab
 mkdir ~/tmp
 mkdir ~/vm-share
+mkdir ~/repos
 echo "Directory structure under HOME (~) is now:"
 ls -d */
 
@@ -41,6 +41,11 @@ ssh-add -K ~/.ssh/id_rsa
 
 
 ## Install Homebrew itself
+echo "Installing and updating xcode ..."
+xcode-select —-install
+# Reset xcode
+xcode-select -r
+
 echo "Installing Homebrew ..."
 /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 brew update
@@ -61,7 +66,7 @@ echo "Second time to change the default shell to the new version of bash"
 chsh -s /usr/local/bin/bash
 
 # Terminal tools and commands
-brew cask install iterm2
+brew cask install hyper
 brew install bash-completion
 brew install tmux
 brew install tree
@@ -74,11 +79,11 @@ brew install bash-git-prompt
 brew cask install docker
 
 # Productivity
+brew cask install microsoft-office
 brew cask install microsoft-teams
 brew cask install alfred
-brew cask install google-chrome
+# brew cask install google-chrome
 brew cask install firefox
-brew cask install dropbox
 
 # R
 
@@ -120,30 +125,26 @@ brew install node
 
 # Text editors and IDEs
 brew cask install visual-studio-code
-brew cask install sublime-text
 brew cask install rstudio
-brew cask install pycharm
-brew cask install azure-data-studio
+#brew cask install azure-data-studio
+#brew cask install sublime-text
+#brew cask install pycharm
 
 # Cloud command-line interfaces and tools
-brew install awscli
-brew install azure-cli
-brew cask install microsoft-azure-storage-explorer
+#brew install awscli
+#brew install azure-cli
+#brew cask install microsoft-azure-storage-explorer
 
 # SQL
 # Still thinking these over, uncomment when ready
 # brew install postgresql
 # brew cask install postgres
 
-# Blogging
-brew install hugo
-
 # Misc
-brew cask install spotify
+#brew cask install spotify
 
 # Mac tools
-brew cask install scroll-reverser
-brew cask install sizeup
+#brew cask install scroll-reverser
 
 # Homebrew installations complete
 brew cleanup
@@ -178,7 +179,7 @@ wget https://raw.githubusercontent.com/jarvisrob/set-up-mac/master/python-sandbo
 conda env create --file ~/tmp/python-sandbox-env.yml
 conda activate python-sandbox
 # TensorFlow 2 not yet available via conda or conda-forge
-pip install tensorflow==2.0.0-alpha0
+#pip install tensorflow==2.0.0-alpha0
 pip install pysnooper
 conda activate base
 rm ~/tmp/python-sandbox-env.yml
@@ -207,24 +208,24 @@ echo "Configuring Git settings and aliases ..."
 read -p "Enter global default Git email: " GIT_EMAIL
 
 # Configure Git settings
-git config --global user.name "Rob Jarvis"
+git config --global user.name "mitchstockdale"
 git config --global user.email "$GIT_EMAIL"
 git config --global core.editor "vim"
 
 # Git aliases
-git config --global alias.unstage 'reset HEAD --' 
-git config --global alias.unmod 'checkout --' 
-git config --global alias.last 'log -1 HEAD' 
-git config --global alias.pub 'push -u origin HEAD' 
-git config --global alias.setemail 'config user.email jarvisrob@users.noreply.github.com' 
-git config --global alias.cm 'commit -m' 
-git config --global alias.co checkout 
-git config --global alias.cob 'checkout -b' 
-git config --global alias.aa 'add -A' 
-git config --global alias.s status 
-git config --global alias.ss 'status -s' 
-git config --global alias.dm diff 
-git config --global alias.ds 'diff --staged'
+#git config --global alias.unstage 'reset HEAD --' 
+#git config --global alias.unmod 'checkout --' 
+#git config --global alias.last 'log -1 HEAD' 
+#git config --global alias.pub 'push -u origin HEAD' 
+#git config --global alias.setemail 'config user.email jarvisrob@users.noreply.github.com' 
+#git config --global alias.cm 'commit -m' 
+#git config --global alias.co checkout 
+#git config --global alias.cob 'checkout -b' 
+#git config --global alias.aa 'add -A' 
+#git config --global alias.s status 
+#git config --global alias.ss 'status -s' 
+#git config --global alias.dm diff 
+#git config --global alias.ds 'diff --staged'
 
 echo "... Done"
 
@@ -316,12 +317,6 @@ echo "Dialog settings"
 # Disable the “Are you sure you want to open this application?” dialog
 defaults write com.apple.LaunchServices LSQuarantine -bool false
 
-
-echo "SizeUp settings"
-# Start SizeUp at login
-defaults write com.irradiatedsoftware.SizeUp StartAtLogin -bool true
-
-
 # Dot files
 # References:
 #   - https://www.davidculley.com/dotfiles/
@@ -350,6 +345,14 @@ wget https://raw.githubusercontent.com/jarvisrob/set-up-mac/master/.bash_profile
 cat ~/.bash_profile
 
 # Z Shell
+echo "Updating Zsh ..."
+brew install zsh
+echo "You will now be prompted for root password *twice*"
+echo "First time to add the new version of bash to /etc/shells"
+sudo bash -c 'echo /usr/local/bin/zsh >> /etc/shells'
+echo "Second time to change the default shell to the new version of zsh"
+chsh -s /usr/local/bin/zsh
+
 # cat <<EOT > ~/.zprofile
 # [[ -e ~/.profile ]] && emulate sh -c 'source ~/.profile'
 
