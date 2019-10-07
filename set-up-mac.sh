@@ -352,6 +352,8 @@ echo "First time to add the new version of bash to /etc/shells"
 sudo bash -c 'echo /usr/local/bin/zsh >> /etc/shells'
 echo "Second time to change the default shell to the new version of zsh"
 chsh -s /usr/local/bin/zsh
+echo "Installing pure-prompt ..."
+npm install --global pure-prompt
 
 # cat <<EOT > ~/.zprofile
 # [[ -e ~/.profile ]] && emulate sh -c 'source ~/.profile'
