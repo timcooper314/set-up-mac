@@ -175,7 +175,7 @@ conda install --channel conda-forge --name base --yes jupyterlab
 conda install --name base --yes nb_conda_kernels
 
 # Sandbox Python environment
-wget https://raw.githubusercontent.com/jarvisrob/set-up-mac/master/python-sandbox-env.yml -P ~/tmp
+wget https://raw.githubusercontent.com/mitchstockdale/set-up-mac/master/python-sandbox-env.yml -P ~/tmp
 conda env create --file ~/tmp/python-sandbox-env.yml
 conda activate python-sandbox
 # TensorFlow 2 not yet available via conda or conda-forge
@@ -187,7 +187,7 @@ rm ~/tmp/python-sandbox-env.yml
 # Install IRkernel so can use R in Jupyter
 # This needs to be done while conda base environment is active, because it needs to see the Jupyter installation
 conda activate base
-wget https://raw.githubusercontent.com/jarvisrob/set-up-mac/master/install-irkernel.R -P ~/tmp
+wget https://raw.githubusercontent.com/mitchstockdale/set-up-mac/master/install-irkernel.R -P ~/tmp
 Rscript --verbose --vanilla ~/tmp/install-irkernel.R
 rm ~/tmp/install-irkernel.R
 
@@ -199,7 +199,7 @@ echo "List of conda environments now on your system"
 conda info --envs
 
 # Turn off conda
-wget https://raw.githubusercontent.com/jarvisrob/set-up-mac/master/conda-off.sh -P ~/bin 
+wget https://raw.githubusercontent.com/mitchstockdale/set-up-mac/master/conda-off.sh -P ~/bin 
 source ~/bin/conda-off.sh
 
 
@@ -217,7 +217,7 @@ git config --global core.editor "vim"
 #git config --global alias.unmod 'checkout --' 
 #git config --global alias.last 'log -1 HEAD' 
 #git config --global alias.pub 'push -u origin HEAD' 
-#git config --global alias.setemail 'config user.email jarvisrob@users.noreply.github.com' 
+#git config --global alias.setemail 'config user.email mitchstockdale@users.noreply.github.com' 
 #git config --global alias.cm 'commit -m' 
 #git config --global alias.co checkout 
 #git config --global alias.cob 'checkout -b' 
@@ -326,22 +326,22 @@ echo "Download dot files"
 
 # .aliases
 echo "Downloading .aliases"
-wget https://raw.githubusercontent.com/jarvisrob/set-up-mac/master/.aliases -P ~
+wget https://raw.githubusercontent.com/mitchstockdale/set-up-mac/master/.aliases -P ~
 cat ~/.aliases
 
 # .profile
 echo "Downloading .profile"
-wget https://raw.githubusercontent.com/jarvisrob/set-up-mac/master/.profile -P ~
+wget https://raw.githubusercontent.com/mitchstockdale/set-up-mac/master/.profile -P ~
 cat ~/.profile
 
 # .bashrc
 echo "Downloading .bashrc"
-wget https://raw.githubusercontent.com/jarvisrob/set-up-mac/master/.bashrc -P ~
+wget https://raw.githubusercontent.com/mitchstockdale/set-up-mac/master/.bashrc -P ~
 cat ~/.bashrc
 
 # .bash_profile
 echo "Downloading .bash_profile"
-wget https://raw.githubusercontent.com/jarvisrob/set-up-mac/master/.bash_profile -P ~
+wget https://raw.githubusercontent.com/mitchstockdale/set-up-mac/master/.bash_profile -P ~
 cat ~/.bash_profile
 
 # Z Shell
@@ -366,17 +366,17 @@ chsh -s /usr/local/bin/zsh
 
 # .vimrc (Vim)
 echo "Downloading .vimrc"
-wget https://raw.githubusercontent.com/jarvisrob/set-up-mac/master/.vimrc -P ~
+wget https://raw.githubusercontent.com/mitchstockdale/set-up-mac/master/.vimrc -P ~
 cat ~/.vimrc
 
 # .condarc (Conda)
 echo "Downloading .condarc"
-wget https://raw.githubusercontent.com/jarvisrob/set-up-mac/master/.condarc -P ~
+wget https://raw.githubusercontent.com/mitchstockdale/set-up-mac/master/.condarc -P ~
 cat ~/.condarc
 
 # .git-prompt-colors.sh (bash-git-prompt)
 echo "Downloading .git-prompt-colors.sh"
-wget https://raw.githubusercontent.com/jarvisrob/set-up-mac/master/.git-prompt-colors.sh -P ~
+wget https://raw.githubusercontent.com/mitchstockdale/set-up-mac/master/.git-prompt-colors.sh -P ~
 cat ~/.git-prompt-colors.sh
 
 
