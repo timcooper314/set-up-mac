@@ -355,6 +355,9 @@ chsh -s /usr/local/bin/zsh
 echo "Installing pure-prompt ..."
 npm install --global pure-prompt
 
+# z directory navigation
+wget https://raw.githubusercontent.com/rupa/z/master/z.sh -P /usr/local/etc/profile.d/z.sh
+
 # cat <<EOT > ~/.zprofile
 # [[ -e ~/.profile ]] && emulate sh -c 'source ~/.profile'
 
