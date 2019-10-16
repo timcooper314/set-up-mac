@@ -55,12 +55,6 @@ alias ...="cd ../../../"
 alias ....="cd ../../../../"
 alias .....="cd ../../../../"
 
-## Colorize the ls output ##
-alias ls="ls --color=auto"
-
-# Show hidden files
-alias l.="ls -d .* --color=auto"
-
 # Calculator with math support
 alias bc="bc -l"
 

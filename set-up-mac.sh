@@ -120,6 +120,10 @@ echo "  $ ln -sf /Library/Frameworks/R.framework/Versions/Current/Resources/lib/
 # Python (Homebrew version)
 brew install python
 
+# Java8 for TEE-CLC - enables TFVC in Vsual Studio Code
+brew cask install adoptopenjdk8
+brew install tee-clc
+
 # Node.js (required for JupyterLab extensions)
 brew install node
 
