@@ -13,9 +13,17 @@ zstyle :compinstall filename '~/.zshrc'
 
 autoload -Uz compinit
 compinit
+
+#autoload -Uz bashcompinit
+#bashcompinit
+#source /usr/local/etc/profile.d/bash_completion.sh
 #------------------
 # Shell Variables
 #------------------
+# Add pyenv to PATH
+export PATH="$HOME/.pyenv/bin:$PATH"
+eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
 
 # Set VS Code as default code editor
 export EDITOR=visual-studio-code

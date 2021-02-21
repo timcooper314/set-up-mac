@@ -77,13 +77,15 @@ brew install rsync
 brew install git
 brew install bash-git-prompt
 brew cask install docker
+brew cask install sourcetree
 
 # Productivity
 brew cask install microsoft-office
-brew cask install microsoft-teams
-brew cask install alfred
+brew cask install microsoft-edge
+#brew cask install microsoft-teams
+# brew cask install alfred
 # brew cask install google-chrome
-brew cask install firefox
+# brew cask install firefox
 
 # R
 
@@ -92,7 +94,7 @@ echo "Installing XQuartz. You will be prompted for root password."
 brew cask install xquartz
 
 # R.app is the macOS version of CRAN-R
-brew cask install r-app
+#brew cask install r-app
 
 # Linking the BLAS (vecLib) from Apple's Accelerate Framework to make R run multi-threaded where it can by default
 # https://developer.apple.com/documentation/accelerate/blas
@@ -118,24 +120,28 @@ echo "  $ ln -sf /Library/Frameworks/R.framework/Versions/Current/Resources/lib/
 # brew cask install microsoft-r-open
 
 # Python (Homebrew version)
-brew install python
+#brew install python@3.8
+
+# Pyenv
+brew install pyenv
 
 # Java8 for TEE-CLC - enables TFVC in Vsual Studio Code
 brew cask install adoptopenjdk8
-brew install tee-clc
+#brew install tee-clc
 
 # Node.js (required for JupyterLab extensions)
 brew install node
 
 # Text editors and IDEs
 brew cask install visual-studio-code
-brew cask install rstudio
+#brew cask install rstudio
 #brew cask install azure-data-studio
 #brew cask install sublime-text
-#brew cask install pycharm
+brew cask install pycharm-ce
+brew cask install intellij-idea-ce
 
 # Cloud command-line interfaces and tools
-#brew install awscli
+brew install awscli
 #brew install azure-cli
 #brew cask install microsoft-azure-storage-explorer
 
@@ -145,7 +151,10 @@ brew cask install rstudio
 # brew cask install postgres
 
 # Misc
-#brew cask install spotify
+brew cask install spotify
+#brew cask install qgis
+brew cask install postman
+brew cask install drawio
 
 # Mac tools
 #brew cask install scroll-reverser
@@ -156,55 +165,55 @@ echo "Homebrew software installations complete"
 
 
 # Conda
-echo "Installing Miniconda using their bash script (not Homebrew). You will be prompted multiple times."
-wget https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh -P ~/tmp
-bash ~/tmp/Miniconda3-latest-MacOSX-x86_64.sh
-rm ~/tmp/Miniconda3-latest-MacOSX-x86_64.sh
+#echo "Installing Miniconda using their bash script (not Homebrew). You will be prompted multiple times."
+#wget https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh -P ~/tmp
+#bash ~/tmp/Miniconda3-latest-MacOSX-x86_64.sh
+#rm ~/tmp/Miniconda3-latest-MacOSX-x86_64.sh
 
 # Conda adds content to .bash_profile, but we want to manually call that when turning Conda on
 # So put all that stuff into another script, and we'll get .bash_profile later
-mv ~/.bash_profile ~/bin/conda-on.sh
-echo "echo \"Conda ready to use\"" >> ~/bin/conda-on.sh
-source ~/bin/conda-on.sh
+#mv ~/.bash_profile ~/bin/conda-on.sh
+#echo "echo \"Conda ready to use\"" >> ~/bin/conda-on.sh
+#source ~/bin/conda-on.sh
 
-conda update conda
-conda --version
+#conda update conda
+#conda --version
 
-echo "Setting up Conda and Jupyter, including sandbox environment(s) for data science ..."
+#echo "Setting up Conda and Jupyter, including sandbox environment(s) for data science ..."
 
 # JupyterLab, installed into base env, configured so it can work across Conda environments
 # At the moment, JupyterLab needs to be installed from conda-forge
-conda activate base
-conda install --channel conda-forge --name base --yes jupyterlab
-conda install --name base --yes nb_conda_kernels
+#conda activate base
+#conda install --channel conda-forge --name base --yes jupyterlab
+#conda install --name base --yes nb_conda_kernels
 
 # Sandbox Python environment
-wget https://raw.githubusercontent.com/mitchstockdale/set-up-mac/master/python-sandbox-env.yml -P ~/tmp
-conda env create --file ~/tmp/python-sandbox-env.yml
-conda activate python-sandbox
+#wget https://raw.githubusercontent.com/mitchstockdale/set-up-mac/master/python-sandbox-env.yml -P ~/tmp
+#conda env create --file ~/tmp/python-sandbox-env.yml
+#conda activate python-sandbox
 # TensorFlow 2 not yet available via conda or conda-forge
 #pip install tensorflow==2.0.0-alpha0
-pip install pysnooper
-conda activate base
-rm ~/tmp/python-sandbox-env.yml
+#pip install pysnooper
+#conda activate base
+#rm ~/tmp/python-sandbox-env.yml
 
 # Install IRkernel so can use R in Jupyter
 # This needs to be done while conda base environment is active, because it needs to see the Jupyter installation
-conda activate base
-wget https://raw.githubusercontent.com/mitchstockdale/set-up-mac/master/install-irkernel.R -P ~/tmp
-Rscript --verbose --vanilla ~/tmp/install-irkernel.R
-rm ~/tmp/install-irkernel.R
+#conda activate base
+#wget https://raw.githubusercontent.com/mitchstockdale/set-up-mac/master/install-irkernel.R -P ~/tmp
+#Rscript --verbose --vanilla ~/tmp/install-irkernel.R
+#rm ~/tmp/install-irkernel.R
 
 # Clean up conda
-conda activate base
-conda clean --all --yes
+#conda activate base
+#conda clean --all --yes
 
-echo "List of conda environments now on your system"
-conda info --envs
+#echo "List of conda environments now on your system"
+#conda info --envs
 
 # Turn off conda
-wget https://raw.githubusercontent.com/mitchstockdale/set-up-mac/master/conda-off.sh -P ~/bin 
-source ~/bin/conda-off.sh
+#wget https://raw.githubusercontent.com/mitchstockdale/set-up-mac/master/conda-off.sh -P ~/bin 
+#source ~/bin/conda-off.sh
 
 
 # Configure Git
@@ -212,7 +221,7 @@ echo "Configuring Git settings ..."
 
 # Configure Git settings
 git config --global user.name "mitchstockdale"
-git config --global core.editor "vim"
+git config --global core.editor "code"
 
 echo "... Done"
 
@@ -324,7 +333,7 @@ echo "Downloading .bash_profile"
 wget https://raw.githubusercontent.com/mitchstockdale/set-up-mac/master/.bash_profile -P ~
 cat ~/.bash_profile
 
-# Z Shell
+# Z Shell or oh-my-zsh??
 echo "Updating Zsh ..."
 brew install zsh
 echo "You will now be prompted for root password *twice*"
@@ -356,9 +365,9 @@ wget https://raw.githubusercontent.com/mitchstockdale/set-up-mac/master/.vimrc -
 cat ~/.vimrc
 
 # .condarc (Conda)
-echo "Downloading .condarc"
-wget https://raw.githubusercontent.com/mitchstockdale/set-up-mac/master/.condarc -P ~
-cat ~/.condarc
+#echo "Downloading .condarc"
+#wget https://raw.githubusercontent.com/mitchstockdale/set-up-mac/master/.condarc -P ~
+#cat ~/.condarc
 
 # .git-prompt-colors.sh (bash-git-prompt)
 echo "Downloading .git-prompt-colors.sh"
