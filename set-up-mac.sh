@@ -17,7 +17,7 @@ mkdir ~/iso
 mkdir ~/lab
 mkdir ~/tmp
 mkdir ~/vm-share
-mkdir ~/repos
+mkdir ~/code
 echo "Directory structure under HOME (~) is now:"
 ls -d */
 
@@ -80,9 +80,9 @@ brew cask install docker
 brew cask install sourcetree
 
 # Productivity
-brew cask install microsoft-office
+#brew cask install microsoft-office
 brew cask install microsoft-edge
-#brew cask install microsoft-teams
+brew cask install microsoft-teams
 # brew cask install alfred
 # brew cask install google-chrome
 # brew cask install firefox
@@ -91,7 +91,7 @@ brew cask install microsoft-edge
 
 # XQuartz is required for R packages that use X11, which is no longer installed on macOS
 echo "Installing XQuartz. You will be prompted for root password."
-brew cask install xquartz
+#brew cask install xquartz
 
 # R.app is the macOS version of CRAN-R
 #brew cask install r-app
@@ -104,12 +104,12 @@ brew cask install xquartz
 
 # Instead this works to link the Apple Accelerate BLAS to R
 # Links for the current version of R, but since this is set-up from scratch there is only one version installed
-echo "Linking version of R just installed to the BLAS in the Apple Accelerate Framework"
-ln -sf \
-  /System/Library/Frameworks/Accelerate.framework/Versions/Current/Frameworks/vecLib.framework/Versions/Current/libBLAS.dylib \
-  /Library/Frameworks/R.framework/Versions/Current/Resources/lib/libRblas.dylib
-echo "To restore the default BLAS that comes with R use:"
-echo "  $ ln -sf /Library/Frameworks/R.framework/Versions/Current/Resources/lib/libRblas.0.dylib /Library/Frameworks/R.framework/Versions/Current/Resources/lib/libRblas.dylib"
+#echo "Linking version of R just installed to the BLAS in the Apple Accelerate Framework"
+#ln -sf \
+#  /System/Library/Frameworks/Accelerate.framework/Versions/Current/Frameworks/vecLib.framework/Versions/Current/libBLAS.dylib \
+#  /Library/Frameworks/R.framework/Versions/Current/Resources/lib/libRblas.dylib
+#echo "To restore the default BLAS that comes with R use:"
+#echo "  $ ln -sf /Library/Frameworks/R.framework/Versions/Current/Resources/lib/libRblas.0.dylib /Library/Frameworks/R.framework/Versions/Current/Resources/lib/libRblas.dylib"
 
 # Not yet sure if need to do anything about linknig the LAPACK
 
@@ -126,7 +126,7 @@ echo "  $ ln -sf /Library/Frameworks/R.framework/Versions/Current/Resources/lib/
 brew install pyenv
 
 # Java8 for TEE-CLC - enables TFVC in Vsual Studio Code
-brew cask install adoptopenjdk8
+#brew cask install adoptopenjdk8
 #brew install tee-clc
 
 # Node.js (required for JupyterLab extensions)
@@ -137,8 +137,8 @@ brew cask install visual-studio-code
 #brew cask install rstudio
 #brew cask install azure-data-studio
 #brew cask install sublime-text
-brew cask install pycharm-ce
-brew cask install intellij-idea-ce
+#brew cask install pycharm-ce
+#brew cask install intellij-idea-ce
 
 # Cloud command-line interfaces and tools
 brew install awscli
@@ -153,8 +153,8 @@ brew install awscli
 # Misc
 brew cask install spotify
 #brew cask install qgis
-brew cask install postman
-brew cask install drawio
+#brew cask install postman
+#brew cask install drawio
 
 # Mac tools
 #brew cask install scroll-reverser
@@ -333,7 +333,16 @@ echo "Downloading .bash_profile"
 wget https://raw.githubusercontent.com/mitchstockdale/set-up-mac/master/.bash_profile -P ~
 cat ~/.bash_profile
 
-# Z Shell or oh-my-zsh??
+# .zprofile
+echo "Downloading .bash_profile"
+wget https://raw.githubusercontent.com/mitchstockdale/set-up-mac/master/.zprofile -P ~
+cat ~/.zprofile
+
+echo "Downloading .zshrc"
+wget https://raw.githubusercontent.com/mitchstockdale/set-up-mac/master/.zshrc -P ~
+cat ~/.zshrc
+
+# Z Shell
 echo "Updating Zsh ..."
 brew install zsh
 echo "You will now be prompted for root password *twice*"
