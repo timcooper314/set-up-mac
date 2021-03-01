@@ -21,9 +21,9 @@ compinit
 # Shell Variables
 #------------------
 # Add pyenv to PATH
-export PATH="$HOME/.pyenv/bin:$PATH"
-eval "$(pyenv init -)"
-eval "$(pyenv virtualenv-init -)"
+#export PATH="$HOME/.pyenv/bin:$PATH"
+#eval "$(pyenv init -)"
+#eval "$(pyenv virtualenv-init -)"
 
 # Set VS Code as default code editor
 export EDITOR=visual-studio-code
