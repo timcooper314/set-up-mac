@@ -50,6 +50,8 @@ echo "Installing Homebrew ..."
 /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 brew update
 brew upgrade
+brew install homebrew/cask
+brew tap homebrew/cask-versions
 echo "Done ..."
 
 
@@ -66,7 +68,7 @@ echo "Second time to change the default shell to the new version of bash"
 chsh -s /usr/local/bin/bash
 
 # Terminal tools and commands
-brew cask install hyper
+brew install --cask hyper
 brew install bash-completion
 brew install tmux
 brew install tree
@@ -76,25 +78,28 @@ brew install rsync
 # Dev tools
 brew install git
 brew install bash-git-prompt
-brew cask install docker
-brew cask install sourcetree
+brew install --cask docker
+brew install --cask sourcetree
 
 # Productivity
-#brew cask install microsoft-office
-brew cask install microsoft-edge
-brew cask install microsoft-teams
-# brew cask install alfred
-# brew cask install google-chrome
-# brew cask install firefox
+#brew install --cask microsoft-office
+brew install --cask microsoft-edge
+brew install --cask microsoft-teams
+brew install --cask zoom
+brew install --cask amazon-chime
+brew install --cask slack
+# brew install --cask alfred
+# brew install --cask google-chrome
+# brew install --cask firefox
 
 # R
 
 # XQuartz is required for R packages that use X11, which is no longer installed on macOS
 echo "Installing XQuartz. You will be prompted for root password."
-#brew cask install xquartz
+#brew install --cask xquartz
 
 # R.app is the macOS version of CRAN-R
-#brew cask install r-app
+#brew install --cask r-app
 
 # Linking the BLAS (vecLib) from Apple's Accelerate Framework to make R run multi-threaded where it can by default
 # https://developer.apple.com/documentation/accelerate/blas
@@ -117,47 +122,57 @@ echo "Installing XQuartz. You will be prompted for root password."
 # Not sure if can be installed side-by-side with other R, ambiguous wording on installation site
 # https://mran.microsoft.com/documents/rro/installation#revorinst-osx
 # Uncomment when/if decide want it installed too
-# brew cask install microsoft-r-open
+# brew install --cask microsoft-r-open
 
 # Python (Homebrew version)
 #brew install python@3.8
 
 # Pyenv
 brew install pyenv
+brew install pyenv-virtualenv
 
 # Java8 for TEE-CLC - enables TFVC in Vsual Studio Code
-#brew cask install adoptopenjdk8
+#brew install --cask adoptopenjdk8
 #brew install tee-clc
 
 # Node.js (required for JupyterLab extensions)
 brew install node
 
 # Text editors and IDEs
-brew cask install visual-studio-code
-#brew cask install rstudio
-#brew cask install azure-data-studio
-#brew cask install sublime-text
-#brew cask install pycharm-ce
-#brew cask install intellij-idea-ce
+brew install --cask visual-studio-code
+brew install --cask dbeaver-community
+#brew install --cask rstudio
+#brew install --cask azure-data-studio
+#brew install --cask sublime-text
+brew install --cask pycharm-ce
+#brew install --cask intellij-idea-ce
+
+# Pycharm/IntelliJ theme
+curl https://raw.githubusercontent.com/JordanForeman/idea-snazzy/master/snazzy.icls --output ~/snazzy.icls
 
 # Cloud command-line interfaces and tools
 brew install awscli
 #brew install azure-cli
-#brew cask install microsoft-azure-storage-explorer
+#brew install --cask microsoft-azure-storage-explorer
+
+# Visual Analytics / Design
+brew install --cask tableau-public
+brew install --cask tableau
+brew install --cask figma
 
 # SQL
 # Still thinking these over, uncomment when ready
 # brew install postgresql
-# brew cask install postgres
+# brew install --cask postgres
 
 # Misc
-brew cask install spotify
-#brew cask install qgis
-#brew cask install postman
-#brew cask install drawio
+brew install --cask spotify
+#brew install --cask qgis
+#brew install --cask postman
+#brew install --cask drawio
 
 # Mac tools
-#brew cask install scroll-reverser
+#brew install --cask scroll-reverser
 
 # Homebrew installations complete
 brew cleanup
@@ -362,10 +377,13 @@ wget https://raw.githubusercontent.com/rupa/z/master/z.sh -P /usr/local/etc/prof
 echo "Installing Zsh auto suggestions ..."
 git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions
 
+# Zsh Syntax Highlighting
+brew install zsh-syntax-highlighting
+
 # Install folder/file icon pack for zsh/hyper
 brew tap homebrew/cask-fonts
-brew cask install font-hack-nerd-font
-brew cask install font-fontawesome
+brew install --cask font-hack-nerd-font
+brew install --cask font-fontawesome
 sudo gem install colorls
 
 # .vimrc (Vim)

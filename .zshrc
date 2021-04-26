@@ -21,10 +21,19 @@ compinit
 # Shell Variables
 #------------------
 # Add pyenv to PATH
-#export PATH="$HOME/.pyenv/bin:$PATH"
-#eval "$(pyenv init -)"
-#eval "$(pyenv virtualenv-init -)"
+export PATH="$HOME/.pyenv/bin:$PATH"
+eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
 
+# Add and switch between JAVA versions
+export JAVA_HOME=$(/usr/libexec/java_home -v15)
+#export JAVA_8_HOME=$(/usr/libexec/java_home -v1.8)
+#export JAVA_11_HOME=$(/usr/libexec/java_home -v11)
+export JAVA_14_HOME=$(/usr/libexec/java_home -v14)
+
+#alias java8='export JAVA_HOME=$JAVA_8_HOME'
+#alias java11='export JAVA_HOME=$JAVA_11_HOME'
+alias java14='export JAVA_HOME=$JAVA_14_HOME'
 # Set VS Code as default code editor
 export EDITOR=visual-studio-code
 
@@ -48,7 +57,7 @@ promptinit
 prompt pure
 
 # Add colors to terminal commands (green command means that the command is valid)
-source /usr/local/share/zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # Add auto suggestions
 source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
