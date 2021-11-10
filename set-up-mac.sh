@@ -74,7 +74,7 @@ cat ~/.zprofile
 echo "Downloading .zshrc"
 wget https://raw.githubusercontent.com/mitchstockdale/set-up-mac/$BRANCH/.zshrc -P ~
 cat ~/.zshrc
-# Add Homebrew to PATH
+echo '# Add Homebrew to PATH' >> ~/.zshrc
 echo 'export PATH="/opt/homebrew/bin:$PATH"' >> ~/.zshrc
 
 echo "Downloading .hyper.js"
@@ -122,16 +122,19 @@ mkdir -p ~/.zsh
 
 # Download history config
 wget https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/lib/history.zsh -P ~/.zsh
+echo "" >> ~/.zshrc
 echo "# Enable 'history' config in ZSH" >> ~/.zshrc
 echo "source $HOME/.zsh/history.zsh" >> ~/.zshrc
 
 # Download key bindings config
 wget https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/lib/key-bindings.zsh -P ~/.zsh
+echo "" >> ~/.zshrc
 echo "# Enable key bindings in ZSH" >> ~/.zshrc
 echo "source $HOME/.zsh/key-bindings.zsh" >> ~/.zshrc
 
 # Download completion config
 wget https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/lib/completion.zsh -P ~/.zsh
+echo "" >> ~/.zshrc
 cat <<EOT >> ~/.zshrc
 # Auto-completion
 # Load completion config
@@ -160,15 +163,19 @@ brew install tmux
 brew install tree
 brew install rsync
 brew install zsh-syntax-highlighting
+echo "" >> ~/.zshrc
 echo "# Zsh syntax highlighting" >> ~/.zshrc
 echo "source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" >> ~/.zshrc
 brew install zsh-autosuggestions
+echo "" >> ~/.zshrc
 echo "# Zsh auto-suggestions" >> ~/.zshrc
 echo "source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh" >> ~/.zshrc
 brew install z
+echo "" >> ~/.zshrc
 echo "# Allow the use of the z plugin to easily navigate directories" >> ~/.zshrc
 echo "source $(brew --prefix)/etc/profile.d/z.sh" >> ~/.zshrc
 brew install starship
+echo "" >> ~/.zshrc
 echo "# Use starship prompt" >> ~/.zshrc
 echo 'eval "$(starship init zsh)"' >> ~/.zshrc
 
@@ -196,15 +203,18 @@ brew install --cask google-chrome
 # Pyenv
 brew install pyenv
 brew install pyenv-virtualenv
+echo "" >> ~/.zshrc
 echo "# Pyenv" >> ~/.zshrc
 echo 'export PATH="$HOME/.pyenv/bin:$PATH"' >> ~/.zshrc
 echo 'eval "$(pyenv init -)"' >> ~/.zshrc
 echo 'eval "$(pyenv virtualenv-init -)"' >> ~/.zshrc
+echo "" >> ~/.zshrc
 echo "# General python" >> ~/.zshrc
 echo "export PYTHONDONTWRITEBYTECODE=1" >> ~/.zshrc
 
 # Jenv
 brew install jenv
+echo "" >> ~/.zshrc
 echo "# Jenv" >> ~/.zshrc
 echo 'export PATH="$HOME/.jenv/bin:$PATH"' >> ~/.zshrc
 echo 'eval "$(jenv init -)"' >> ~/.zshrc
@@ -220,6 +230,15 @@ brew install --cask visual-studio-code
 # brew install --cask sublime-text
 brew install --cask pycharm-ce
 # brew install --cask intellij-idea-ce
+
+# VS Code extensions
+code --install-extension piotrpalarz.vscode-gitignore-generator
+code --install-extension amazonwebservices.aws-toolkit-vscode
+code --install-extension hookyqr.beautify
+code --install-extension eamodio.gitlens
+code --install-extension ms-python.vscode-pylance
+code --install-extension paiqo.databricks-vscode
+code --install-extension redhat.vscode-yaml
 
 # Pycharm/IntelliJ theme
 wget https://raw.githubusercontent.com/JordanForeman/idea-snazzy/master/snazzy.icls -P ~
@@ -255,6 +274,7 @@ brew install --cask font-hack-nerd-font
 brew install --cask font-fontawesome
 brew install --cask font-fira-code
 sudo gem install colorls
+echo "" >> ~/.zshrc
 echo "# colorls tab completion for flags" >> ~/.zshrc
 echo "source $(dirname $(gem which colorls))/tab_complete.sh" >> ~/.zshrc
 
