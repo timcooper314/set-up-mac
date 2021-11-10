@@ -135,7 +135,7 @@ echo "source $HOME/.zsh/key-bindings.zsh" >> ~/.zshrc
 # Download completion config
 wget https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/lib/completion.zsh -P ~/.zsh
 echo "" >> ~/.zshrc
-cat <<EOT >> ~/.zshrc
+cat <<"EOT" >> ~/.zshrc
 # Auto-completion
 # Load completion config
 source ~/.zsh/completion.zsh
@@ -144,7 +144,7 @@ source ~/.zsh/completion.zsh
 autoload -Uz compinit
 
 # Cache completion if nothing changed - faster startup time
-typeset -i updated_at="$(date +'%j' -r ~/.zcompdump 2>/dev/null || stat -f '%Sm' -t '%j' ~/.zcompdump 2>/dev/null)"
+typeset -i updated_at=$(date +'%j' -r ~/.zcompdump 2>/dev/null || stat -f '%Sm' -t '%j' ~/.zcompdump 2>/dev/null)
 if [ $(date +'%j') != $updated_at ]; then
   compinit -i
 else
