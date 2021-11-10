@@ -30,6 +30,7 @@ ls -d */
 # Install Homebrew itself
 echo "Installing Homebrew ..."
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+export PATH="/opt/homebrew/bin:$PATH"
 brew update
 brew upgrade
 echo "Done ..."
@@ -73,6 +74,8 @@ cat ~/.zprofile
 echo "Downloading .zshrc"
 wget https://raw.githubusercontent.com/mitchstockdale/set-up-mac/$BRANCH/.zshrc -P ~
 cat ~/.zshrc
+# Add Homebrew to PATH
+echo 'export PATH="/opt/homebrew/bin:$PATH"' >> ~/.zshrc
 
 echo "Downloading .hyper.js"
 wget https://raw.githubusercontent.com/mitchstockdale/set-up-mac/$BRANCH/.hyper.js -P ~
@@ -106,25 +109,26 @@ echo "Installing packages and software using Homebrew ..."
 echo 'Installing the latest version of bash'
 echo 'You will be prompted for root password to add the new version of bash to /etc/shells'
 brew install bash
-echo '/opt/homebrew/bin/bash' | sudo tee -a /etc/shells 1>/dev/null
+echo "$(brew --prefix)/bin/bash" | sudo tee -a /etc/shells 1>/dev/null
 
 # Zsh
 echo 'Installing the latest version of Zsh'
 echo 'You will be prompted for root password to add the new version of bash to /etc/shells'
 brew install zsh
-echo '/opt/homebrew/bin/zsh' | sudo tee -a /etc/shells 1>/dev/null
+echo "$(brew --prefix)/bin/zsh" | sudo tee -a /etc/shells 1>/dev/null
 
 # Create a `.zsh` directory to store our plugins in one place
 mkdir -p ~/.zsh
 
 # Download history config
 wget https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/lib/history.zsh -P ~/.zsh
-# Enable 'history' config in ZSH
+echo "# Enable 'history' config in ZSH" >> ~/.zshrc
 echo "source $HOME/.zsh/history.zsh" >> ~/.zshrc
 
 # Download key bindings config
 wget https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/lib/key-bindings.zsh -P ~/.zsh
-echo "source $HOME/.zsh/completion.zsh" >> ~/.zshrc
+echo "# Enable key bindings in ZSH" >> ~/.zshrc
+echo "source $HOME/.zsh/key-bindings.zsh" >> ~/.zshrc
 
 # Download completion config
 wget https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/lib/completion.zsh -P ~/.zsh
@@ -137,13 +141,13 @@ source ~/.zsh/completion.zsh
 autoload -Uz compinit
 
 # Cache completion if nothing changed - faster startup time
-typeset -i updated_at=$(date +'%j' -r ~/.zcompdump 2>/dev/null || stat -f '%Sm' -t '%j' ~/.zcompdump 2>/dev/null)
+typeset -i updated_at="$(date +'%j' -r ~/.zcompdump 2>/dev/null || stat -f '%Sm' -t '%j' ~/.zcompdump 2>/dev/null)"
 if [ $(date +'%j') != $updated_at ]; then
   compinit -i
 else
   compinit -C -i
 fi
-# Enhanced form of menu completion called `menu selection'
+# Enhanced form of menu completion called 'menu selection'
 zmodload -i zsh/complist
 
 # Enable the addition of zsh hook functions
@@ -156,90 +160,94 @@ brew install tmux
 brew install tree
 brew install rsync
 brew install zsh-syntax-highlighting
+echo "# Zsh syntax highlighting" >> ~/.zshrc
+echo "source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" >> ~/.zshrc
 brew install zsh-autosuggestions
-echo 'source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh' >> ~/.zshrc
+echo "# Zsh auto-suggestions" >> ~/.zshrc
+echo "source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh" >> ~/.zshrc
 brew install z
-echo 'source $(brew --prefix)/etc/profile.d/z.sh' >> ~/.zshrc
+echo "# Allow the use of the z plugin to easily navigate directories" >> ~/.zshrc
+echo "source $(brew --prefix)/etc/profile.d/z.sh" >> ~/.zshrc
 brew install starship
+echo "# Use starship prompt" >> ~/.zshrc
 echo 'eval "$(starship init zsh)"' >> ~/.zshrc
-brew install tmux
-brew install tree
 
 # Dev tools
 brew install git
 brew install --cask docker
-# brew install --cask sourcetree, not yet M1 supported
+brew install --cask sourcetree
 
 # Terminal
 brew install --cask hyper
 
 # Productivity
-# brew install --cask microsoft-office
-# brew install --cask microsoft-edge
+# brew install --cask microsoft-office, not yet M1 supported
+brew install --cask microsoft-edge
 # brew install --cask microsoft-teams
 brew install --cask zoom
 # brew install --cask slack
 # brew install --cask alfred
-# brew install --cask google-chrome
+brew install --cask google-chrome
 # brew install --cask firefox
 
 # Python (Homebrew version)
-#brew install python@3.8
+# brew install python@3.8
 
 # Pyenv
 brew install pyenv
 brew install pyenv-virtualenv
-cat <<EOT >> ~/.zshrc
-export PATH="$HOME/.pyenv/bin:$PATH"
-eval "$(pyenv init -)"
-eval "$(pyenv virtualenv-init -)"
-export PYTHONDONTWRITEBYTECODE=1
-EOT
+echo "# Pyenv" >> ~/.zshrc
+echo 'export PATH="$HOME/.pyenv/bin:$PATH"' >> ~/.zshrc
+echo 'eval "$(pyenv init -)"' >> ~/.zshrc
+echo 'eval "$(pyenv virtualenv-init -)"' >> ~/.zshrc
+echo "# General python" >> ~/.zshrc
+echo "export PYTHONDONTWRITEBYTECODE=1" >> ~/.zshrc
+
 # Jenv
 brew install jenv
+echo "# Jenv" >> ~/.zshrc
 echo 'export PATH="$HOME/.jenv/bin:$PATH"' >> ~/.zshrc
 echo 'eval "$(jenv init -)"' >> ~/.zshrc
-source ~/.zshrc
 
 # Node.js (required for JupyterLab extensions)
 brew install node
 
 # Text editors and IDEs
 brew install --cask visual-studio-code
-#brew install --cask dbeaver-community
-#brew install --cask rstudio
-#brew install --cask azure-data-studio
-#brew install --cask sublime-text
+# brew install --cask dbeaver-community
+# brew install --cask rstudio
+# brew install --cask azure-data-studio
+# brew install --cask sublime-text
 brew install --cask pycharm-ce
-#brew install --cask intellij-idea-ce
+# brew install --cask intellij-idea-ce
 
 # Pycharm/IntelliJ theme
 wget https://raw.githubusercontent.com/JordanForeman/idea-snazzy/master/snazzy.icls -P ~
 
 # Cloud command-line interfaces and tools
 brew install awscli
+brew tap aws/tap
 brew install aws-sam-cli
 brew install azure-cli
-#brew install --cask microsoft-azure-storage-explorer
+# brew install --cask microsoft-azure-storage-explorer
 
 # Visual Analytics / Design
-#brew install --cask tableau-public
-#brew install --cask tableau
-#brew install --cask figma
+# brew install --cask tableau-public
+# brew install --cask tableau
+# brew install --cask figma
 
 # SQL
-# Still thinking these over, uncomment when ready
 # brew install postgresql
 # brew install --cask postgres
 
 # Misc
-# brew install --cask spotify
-#brew install --cask qgis
-#brew install --cask postman
+brew install --cask spotify
+# brew install --cask qgis
+# brew install --cask postman
 brew install --cask drawio
 
 # Mac tools
-#brew install --cask scroll-reverser
+# brew install --cask scroll-reverser
 
 # Install folder/file icon pack for zsh/hyper
 brew tap homebrew/cask-fonts
@@ -247,7 +255,8 @@ brew install --cask font-hack-nerd-font
 brew install --cask font-fontawesome
 brew install --cask font-fira-code
 sudo gem install colorls
-echo 'source $(dirname $(gem which colorls))/tab_complete.sh' >> ~/.zshrc
+echo "# colorls tab completion for flags" >> ~/.zshrc
+echo "source $(dirname $(gem which colorls))/tab_complete.sh" >> ~/.zshrc
 
 # Homebrew installations complete
 brew cleanup
