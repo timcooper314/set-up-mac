@@ -1,14 +1,20 @@
 #!/usr/bin/env bash
 echo "Running script using bash version:"
 echo $BASH_VERSION
+BRANCH=mitch-changes
 
 # This is my set-up, my way
 # If you're not me, *really* think before running this script--it's all on you
 
-echo "Shell script to set-up a new Mac"
-echo "You were warned: This is *my* set-up, *my* way!"
-echo "Here we go ..."
+# Before running, install Xcode command line tools via:
+# $ xcode-select —-install
 
+echo "Shell script to set-up a new Mac"
+echo "You are warned: This is *my* set-up, *my* way!"
+echo "You must also have already installed Xcode command-line tools with: $ xcode-select —-install"
+
+read -p "Press <return> to continue or ^C to quit now"
+echo "Here we go ..."
 
 # Make my directories
 echo "Making my directories under HOME (~), i.e. under $HOME"
@@ -21,6 +27,60 @@ mkdir ~/code
 echo "Directory structure under HOME (~) is now:"
 ls -d */
 
+# Install Homebrew itself
+echo "Installing Homebrew ..."
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+brew update
+brew upgrade
+echo "Done ..."
+
+# We use this from here on
+brew install wget
+
+# Dot files
+# References:
+#   - https://www.davidculley.com/dotfiles/
+#   - https://superuser.com/questions/183870/difference-between-bashrc-and-bash-profile/183980#183980
+
+echo "Downloading dot files..."
+echo "Files downloaded from branch: $BRANCH"
+
+# .aliases
+echo "Downloading .aliases"
+wget https://raw.githubusercontent.com/mitchstockdale/set-up-mac/$BRANCH/.aliases -P ~
+cat ~/.aliases
+
+# .profile
+echo "Downloading .profile"
+wget https://raw.githubusercontent.com/mitchstockdale/set-up-mac/$BRANCH/.profile -P ~
+cat ~/.profile
+
+# .bashrc
+echo "Downloading .bashrc"
+wget https://raw.githubusercontent.com/mitchstockdale/set-up-mac/$BRANCH/.bashrc -P ~
+cat ~/.bashrc
+
+# .bash_profile
+echo "Downloading .bash_profile"
+wget https://raw.githubusercontent.com/mitchstockdale/set-up-mac/$BRANCH/.bash_profile -P ~
+cat ~/.bash_profile
+
+# .zprofile
+echo "Downloading .bash_profile"
+wget https://raw.githubusercontent.com/mitchstockdale/set-up-mac/$BRANCH/.zprofile -P ~
+cat ~/.zprofile
+
+echo "Downloading .zshrc"
+wget https://raw.githubusercontent.com/mitchstockdale/set-up-mac/$BRANCH/.zshrc -P ~
+cat ~/.zshrc
+
+echo "Downloading .hyper.js"
+wget https://raw.githubusercontent.com/mitchstockdale/set-up-mac/$BRANCH/.hyper.js -P ~
+
+# .vimrc (Vim)
+echo "Downloading .vimrc"
+wget https://raw.githubusercontent.com/mitchstockdale/set-up-mac/$BRANCH/.vimrc -P ~
+cat ~/.vimrc
 
 # SSH keys
 echo "Generating SSH keys"
@@ -35,94 +95,93 @@ Host *
 	AddKeysToAgent yes
 	UseKeychain yes
 	IdentityFile ~/.ssh/id_rsa
-
 EOT
 ssh-add -K ~/.ssh/id_rsa
-
-
-## Install Homebrew itself
-echo "Installing and updating xcode ..."
-xcode-select —-install
-# Reset xcode
-xcode-select -r
-
-echo "Installing Homebrew ..."
-/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-brew update
-brew upgrade
-brew install homebrew/cask
-brew tap homebrew/cask-versions
-echo "Done ..."
-
+read -p "Copy key details and then press <return> to continue"
 
 # Install packages and software using Homebrew
 echo "Installing packages and software using Homebrew ..."
 
 # Bash
-echo "First, the latest version of bash"
+echo 'Installing the latest version of bash'
+echo 'You will be prompted for root password to add the new version of bash to /etc/shells'
 brew install bash
-echo "You will now be prompted for root password *twice*"
-echo "First time to add the new version of bash to /etc/shells"
-sudo bash -c 'echo /usr/local/bin/bash >> /etc/shells'
-echo "Second time to change the default shell to the new version of bash"
-chsh -s /usr/local/bin/bash
+echo '/opt/homebrew/bin/bash' | sudo tee -a /etc/shells 1>/dev/null
+
+# Zsh
+echo 'Installing the latest version of Zsh'
+echo 'You will be prompted for root password to add the new version of bash to /etc/shells'
+brew install zsh
+echo '/opt/homebrew/bin/zsh' | sudo tee -a /etc/shells 1>/dev/null
+
+# Create a `.zsh` directory to store our plugins in one place
+mkdir -p ~/.zsh
+
+# Download history config
+wget https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/lib/history.zsh -P ~/.zsh
+# Enable 'history' config in ZSH
+echo "source $HOME/.zsh/history.zsh" >> ~/.zshrc
+
+# Download key bindings config
+wget https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/lib/key-bindings.zsh -P ~/.zsh
+echo "source $HOME/.zsh/completion.zsh" >> ~/.zshrc
+
+# Download completion config
+wget https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/lib/completion.zsh -P ~/.zsh
+cat <<EOT >> ~/.zshrc
+# Auto-completion
+# Load completion config
+source ~/.zsh/completion.zsh
+
+# Initialize the completion system
+autoload -Uz compinit
+
+# Cache completion if nothing changed - faster startup time
+typeset -i updated_at=$(date +'%j' -r ~/.zcompdump 2>/dev/null || stat -f '%Sm' -t '%j' ~/.zcompdump 2>/dev/null)
+if [ $(date +'%j') != $updated_at ]; then
+  compinit -i
+else
+  compinit -C -i
+fi
+# Enhanced form of menu completion called `menu selection'
+zmodload -i zsh/complist
+
+# Enable the addition of zsh hook functions
+autoload -U add-zsh-hook
+EOT
 
 # Terminal tools and commands
-brew install --cask hyper
 brew install bash-completion
 brew install tmux
 brew install tree
-brew install wget
 brew install rsync
+brew install zsh-syntax-highlighting
+brew install zsh-autosuggestions
+echo 'source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh' >> ~/.zshrc
+brew install z
+echo 'source $(brew --prefix)/etc/profile.d/z.sh' >> ~/.zshrc
+brew install starship
+echo 'eval "$(starship init zsh)"' >> ~/.zshrc
+brew install tmux
+brew install tree
 
 # Dev tools
 brew install git
-brew install bash-git-prompt
 brew install --cask docker
-brew install --cask sourcetree
+# brew install --cask sourcetree, not yet M1 supported
+
+# Terminal
+brew install --cask hyper
 
 # Productivity
-#brew install --cask microsoft-office
-brew install --cask microsoft-edge
-brew install --cask microsoft-teams
+# brew install --cask microsoft-office
+# brew install --cask microsoft-edge
+# brew install --cask microsoft-teams
 brew install --cask zoom
-brew install --cask amazon-chime
-brew install --cask slack
+# brew install --cask slack
 # brew install --cask alfred
 # brew install --cask google-chrome
 # brew install --cask firefox
-
-# R
-
-# XQuartz is required for R packages that use X11, which is no longer installed on macOS
-echo "Installing XQuartz. You will be prompted for root password."
-#brew install --cask xquartz
-
-# R.app is the macOS version of CRAN-R
-#brew install --cask r-app
-
-# Linking the BLAS (vecLib) from Apple's Accelerate Framework to make R run multi-threaded where it can by default
-# https://developer.apple.com/documentation/accelerate/blas
-
-# The approach for linking the BLAS provided on CRAN **doesn't work**, since libRblas.vecLib.dylib does not exist (at least not in that location)
-# https://cran.r-project.org/bin/macosx/RMacOSX-FAQ.html#Which-BLAS-is-used-and-how-can-it-be-changed_003f
-
-# Instead this works to link the Apple Accelerate BLAS to R
-# Links for the current version of R, but since this is set-up from scratch there is only one version installed
-#echo "Linking version of R just installed to the BLAS in the Apple Accelerate Framework"
-#ln -sf \
-#  /System/Library/Frameworks/Accelerate.framework/Versions/Current/Frameworks/vecLib.framework/Versions/Current/libBLAS.dylib \
-#  /Library/Frameworks/R.framework/Versions/Current/Resources/lib/libRblas.dylib
-#echo "To restore the default BLAS that comes with R use:"
-#echo "  $ ln -sf /Library/Frameworks/R.framework/Versions/Current/Resources/lib/libRblas.0.dylib /Library/Frameworks/R.framework/Versions/Current/Resources/lib/libRblas.dylib"
-
-# Not yet sure if need to do anything about linknig the LAPACK
-
-# Microsoft R Open
-# Not sure if can be installed side-by-side with other R, ambiguous wording on installation site
-# https://mran.microsoft.com/documents/rro/installation#revorinst-osx
-# Uncomment when/if decide want it installed too
-# brew install --cask microsoft-r-open
 
 # Python (Homebrew version)
 #brew install python@3.8
@@ -130,17 +189,24 @@ echo "Installing XQuartz. You will be prompted for root password."
 # Pyenv
 brew install pyenv
 brew install pyenv-virtualenv
-
-# Java8 for TEE-CLC - enables TFVC in Vsual Studio Code
-#brew install --cask adoptopenjdk8
-#brew install tee-clc
+cat <<EOT >> ~/.zshrc
+export PATH="$HOME/.pyenv/bin:$PATH"
+eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
+export PYTHONDONTWRITEBYTECODE=1
+EOT
+# Jenv
+brew install jenv
+echo 'export PATH="$HOME/.jenv/bin:$PATH"' >> ~/.zshrc
+echo 'eval "$(jenv init -)"' >> ~/.zshrc
+source ~/.zshrc
 
 # Node.js (required for JupyterLab extensions)
 brew install node
 
 # Text editors and IDEs
 brew install --cask visual-studio-code
-brew install --cask dbeaver-community
+#brew install --cask dbeaver-community
 #brew install --cask rstudio
 #brew install --cask azure-data-studio
 #brew install --cask sublime-text
@@ -148,17 +214,18 @@ brew install --cask pycharm-ce
 #brew install --cask intellij-idea-ce
 
 # Pycharm/IntelliJ theme
-curl https://raw.githubusercontent.com/JordanForeman/idea-snazzy/master/snazzy.icls --output ~/snazzy.icls
+wget https://raw.githubusercontent.com/JordanForeman/idea-snazzy/master/snazzy.icls -P ~
 
 # Cloud command-line interfaces and tools
 brew install awscli
-#brew install azure-cli
+brew install aws-sam-cli
+brew install azure-cli
 #brew install --cask microsoft-azure-storage-explorer
 
 # Visual Analytics / Design
-brew install --cask tableau-public
-brew install --cask tableau
-brew install --cask figma
+#brew install --cask tableau-public
+#brew install --cask tableau
+#brew install --cask figma
 
 # SQL
 # Still thinking these over, uncomment when ready
@@ -166,78 +233,34 @@ brew install --cask figma
 # brew install --cask postgres
 
 # Misc
-brew install --cask spotify
+# brew install --cask spotify
 #brew install --cask qgis
 #brew install --cask postman
-#brew install --cask drawio
+brew install --cask drawio
 
 # Mac tools
 #brew install --cask scroll-reverser
+
+# Install folder/file icon pack for zsh/hyper
+brew tap homebrew/cask-fonts
+brew install --cask font-hack-nerd-font
+brew install --cask font-fontawesome
+brew install --cask font-fira-code
+sudo gem install colorls
+echo 'source $(dirname $(gem which colorls))/tab_complete.sh' >> ~/.zshrc
 
 # Homebrew installations complete
 brew cleanup
 echo "Homebrew software installations complete"
 
-
-# Conda
-#echo "Installing Miniconda using their bash script (not Homebrew). You will be prompted multiple times."
-#wget https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh -P ~/tmp
-#bash ~/tmp/Miniconda3-latest-MacOSX-x86_64.sh
-#rm ~/tmp/Miniconda3-latest-MacOSX-x86_64.sh
-
-# Conda adds content to .bash_profile, but we want to manually call that when turning Conda on
-# So put all that stuff into another script, and we'll get .bash_profile later
-#mv ~/.bash_profile ~/bin/conda-on.sh
-#echo "echo \"Conda ready to use\"" >> ~/bin/conda-on.sh
-#source ~/bin/conda-on.sh
-
-#conda update conda
-#conda --version
-
-#echo "Setting up Conda and Jupyter, including sandbox environment(s) for data science ..."
-
-# JupyterLab, installed into base env, configured so it can work across Conda environments
-# At the moment, JupyterLab needs to be installed from conda-forge
-#conda activate base
-#conda install --channel conda-forge --name base --yes jupyterlab
-#conda install --name base --yes nb_conda_kernels
-
-# Sandbox Python environment
-#wget https://raw.githubusercontent.com/mitchstockdale/set-up-mac/master/python-sandbox-env.yml -P ~/tmp
-#conda env create --file ~/tmp/python-sandbox-env.yml
-#conda activate python-sandbox
-# TensorFlow 2 not yet available via conda or conda-forge
-#pip install tensorflow==2.0.0-alpha0
-#pip install pysnooper
-#conda activate base
-#rm ~/tmp/python-sandbox-env.yml
-
-# Install IRkernel so can use R in Jupyter
-# This needs to be done while conda base environment is active, because it needs to see the Jupyter installation
-#conda activate base
-#wget https://raw.githubusercontent.com/mitchstockdale/set-up-mac/master/install-irkernel.R -P ~/tmp
-#Rscript --verbose --vanilla ~/tmp/install-irkernel.R
-#rm ~/tmp/install-irkernel.R
-
-# Clean up conda
-#conda activate base
-#conda clean --all --yes
-
-#echo "List of conda environments now on your system"
-#conda info --envs
-
-# Turn off conda
-#wget https://raw.githubusercontent.com/mitchstockdale/set-up-mac/master/conda-off.sh -P ~/bin 
-#source ~/bin/conda-off.sh
-
-
 # Configure Git
-echo "Configuring Git settings ..."
+echo "Configuring Git settings and aliases ..."
+read -p "Enter global default Git email: " GIT_EMAIL
 
 # Configure Git settings
-git config --global user.name "mitchstockdale"
+git config --global user.name "Mitch Stockdale"
+git config --global user.email "$GIT_EMAIL"
 git config --global core.editor "code"
-
 echo "... Done"
 
 # macOS settings
@@ -305,9 +328,11 @@ echo "TextEdit settings"
 defaults write com.apple.TextEdit RichText -int 0
 
 echo "Screen saver password settings"
-# Require password immediately after sleep or screen saver begins"
-defaults write com.apple.screensaver askForPassword -int 1
+# Require password immediately after sleep or screen saver begins
+# Start screen saver after 5 mins of idle
+defaults write com.apple.screensaver askForPassword -bool true
 defaults write com.apple.screensaver askForPasswordDelay -int 0
+defaults -currentHost write com.apple.screensaver idleTime 300
 
 echo "Screenshot settings"
 
@@ -321,85 +346,9 @@ echo "Dialog settings"
 # Disable the “Are you sure you want to open this application?” dialog
 defaults write com.apple.LaunchServices LSQuarantine -bool false
 
-# Dot files
-# References:
-#   - https://www.davidculley.com/dotfiles/
-#   - https://superuser.com/questions/183870/difference-between-bashrc-and-bash-profile/183980#183980
-
-echo "Download dot files"
-
-# .aliases
-echo "Downloading .aliases"
-wget https://raw.githubusercontent.com/mitchstockdale/set-up-mac/master/.aliases -P ~
-cat ~/.aliases
-
-# .profile
-echo "Downloading .profile"
-wget https://raw.githubusercontent.com/mitchstockdale/set-up-mac/master/.profile -P ~
-cat ~/.profile
-
-# .bashrc
-echo "Downloading .bashrc"
-wget https://raw.githubusercontent.com/mitchstockdale/set-up-mac/master/.bashrc -P ~
-cat ~/.bashrc
-
-# .bash_profile
-echo "Downloading .bash_profile"
-wget https://raw.githubusercontent.com/mitchstockdale/set-up-mac/master/.bash_profile -P ~
-cat ~/.bash_profile
-
-# .zprofile
-echo "Downloading .bash_profile"
-wget https://raw.githubusercontent.com/mitchstockdale/set-up-mac/master/.zprofile -P ~
-cat ~/.zprofile
-
-echo "Downloading .zshrc"
-wget https://raw.githubusercontent.com/mitchstockdale/set-up-mac/master/.zshrc -P ~
-cat ~/.zshrc
-
-# Z Shell
-echo "Updating Zsh ..."
-brew install zsh
-echo "You will now be prompted for root password *twice*"
-echo "First time to add the new version of bash to /etc/shells"
-sudo bash -c 'echo /usr/local/bin/zsh >> /etc/shells'
-echo "Second time to change the default shell to the new version of zsh"
-chsh -s /usr/local/bin/zsh
-
-echo "Installing pure-prompt ..."
-npm install --global pure-prompt
-
-# z directory navigation
-echo "Installing easy directory navigation in Zsh ..."
-wget https://raw.githubusercontent.com/rupa/z/master/z.sh -P /usr/local/etc/profile.d
-
-# Zsh auto suggestions
-echo "Installing Zsh auto suggestions ..."
-git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions
-
-# Zsh Syntax Highlighting
-brew install zsh-syntax-highlighting
-
-# Install folder/file icon pack for zsh/hyper
-brew tap homebrew/cask-fonts
-brew install --cask font-hack-nerd-font
-brew install --cask font-fontawesome
-sudo gem install colorls
-
-# .vimrc (Vim)
-echo "Downloading .vimrc"
-wget https://raw.githubusercontent.com/mitchstockdale/set-up-mac/master/.vimrc -P ~
-cat ~/.vimrc
-
-# .condarc (Conda)
-#echo "Downloading .condarc"
-#wget https://raw.githubusercontent.com/mitchstockdale/set-up-mac/master/.condarc -P ~
-#cat ~/.condarc
-
-# .git-prompt-colors.sh (bash-git-prompt)
-echo "Downloading .git-prompt-colors.sh"
-wget https://raw.githubusercontent.com/mitchstockdale/set-up-mac/master/.git-prompt-colors.sh -P ~
-cat ~/.git-prompt-colors.sh
+# Make Zsh the default shell
+echo 'Making Homebrew installed and updated Zsh the default shell. You will be prompted for root password.'
+chsh -s /opt/hombrew/bin/zsh
 
 # End
 echo "Mac set-up completed--enjoy!"
