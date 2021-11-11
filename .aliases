@@ -33,3 +33,6 @@ alias rm='rm -i'                              # confirm removal
 alias cp='cp -i'                              # confirm copy
 alias mv='mv -i'                              # confirm move
 alias weather='curl v2.wttr.in'
+
+# update homebrew
+alias brewup='brew update; brew upgrade; brew cleanup; brew doctor'

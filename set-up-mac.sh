@@ -35,6 +35,9 @@ brew update
 brew upgrade
 echo "Done ..."
 
+# Disable Brew Analytics
+brew analytics off
+
 # We use this from here on
 brew install wget
 
@@ -74,8 +77,15 @@ cat ~/.zprofile
 echo "Downloading .zshrc"
 wget https://raw.githubusercontent.com/mitchstockdale/set-up-mac/$BRANCH/.zshrc -P ~
 cat ~/.zshrc
-echo '# Add Homebrew to PATH' >> ~/.zshrc
-echo 'export PATH="/opt/homebrew/bin:$PATH"' >> ~/.zshrc
+sudo cat > ~/.zshrc <<EOF
+# Add Homebrew to PATH
+export PATH="/opt/homebrew/bin:$PATH"
+
+# Ensure secure connections for brew
+export HOMEBREW_NO_INSECURE_REDIRECT=1
+export HOMEBREW_CASK_OPTS=--require-sha
+export GREP_OPTIONS=' — color=auto'
+EOF
 
 echo "Downloading .hyper.js"
 wget https://raw.githubusercontent.com/mitchstockdale/set-up-mac/$BRANCH/.hyper.js -P ~
@@ -178,6 +188,21 @@ brew install starship
 echo "" >> ~/.zshrc
 echo "# Use starship prompt" >> ~/.zshrc
 echo 'eval "$(starship init zsh)"' >> ~/.zshrc
+mkdir -p ~/.config && touch ~/.config/starship.toml
+cat <<"EOT" >> ~/.config/starship.toml
+# Inserts a blank line between shell prompts
+add_newline = true
+
+# Replace the "❯" symbol in the prompt with "➜"
+[character]                            # The name of the module we are configuring is "character"
+success_symbol = "[➜](bold green)"     # The "success_symbol" segment is being set to "➜" with the color "bold green"
+
+# Disable the package module, hiding it from the prompt completely
+[package]
+disabled = true
+EOT
+echo 'export STARSHIP_CONFIG=~/.config/starship.toml' >> ~/.zshrc
+
 
 # Dev tools
 brew install git
