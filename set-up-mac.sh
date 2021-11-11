@@ -270,9 +270,11 @@ brew install --cask drawio
 
 # Install folder/file icon pack for zsh/hyper
 brew tap homebrew/cask-fonts
+brew install svn
 brew install --cask font-hack-nerd-font
 brew install --cask font-fontawesome
 brew install --cask font-fira-code
+brew install --cask font-roboto
 sudo gem install colorls
 echo "" >> ~/.zshrc
 echo "# colorls tab completion for flags" >> ~/.zshrc
