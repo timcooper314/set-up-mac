@@ -273,6 +273,8 @@ brew install awscli
 brew tap aws/tap
 brew install aws-sam-cli
 brew install azure-cli
+brew tap hashicorp/tap
+brew install hashicorp/tap/terraform
 # brew install --cask microsoft-azure-storage-explorer
 
 # Visual Analytics / Design
