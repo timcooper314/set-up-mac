@@ -264,6 +264,7 @@ code --install-extension eamodio.gitlens
 code --install-extension ms-python.vscode-pylance
 code --install-extension paiqo.databricks-vscode
 code --install-extension redhat.vscode-yaml
+code --install-extension hashicorp.terraform
 
 # Pycharm/IntelliJ theme
 wget https://raw.githubusercontent.com/JordanForeman/idea-snazzy/master/snazzy.icls -P ~
