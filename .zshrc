@@ -7,17 +7,17 @@ source ~/.aliases
 # From setup script
 #------------------
 # Add Homebrew to PATH
-export PATH="/opt/homebrew/bin:$PATH"
+export PATH="$(brew --prefix)/bin:$PATH"
 
 # Ensure secure connections for brew
 export HOMEBREW_NO_INSECURE_REDIRECT=1
 export HOMEBREW_CASK_OPTS=--require-sha
 
 # Enable 'history' config in ZSH
-source /Users/mitchstockdale/.zsh/history.zsh
+source ~/.zsh/history.zsh
 
 # Enable key bindings in ZSH
-source /Users/mitchstockdale/.zsh/key-bindings.zsh
+source ~/.zsh/key-bindings.zsh
 
 # Auto-completion
 # Load completion config
@@ -40,13 +40,13 @@ zmodload -i zsh/complist
 autoload -U add-zsh-hook
 
 # Zsh syntax highlighting
-source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # Zsh auto-suggestions
-source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 # Allow the use of the z plugin to easily navigate directories
-source /opt/homebrew/etc/profile.d/z.sh
+source $(brew --prefix)/etc/profile.d/z.sh
 
 # Use starship prompt
 eval "$(starship init zsh)"
@@ -70,5 +70,5 @@ source /Library/Ruby/Gems/2.6.0/gems/colorls-1.4.4/lib/tab_complete.sh
 
 # terraform
 autoload -U +X bashcompinit && bashcompinit
-complete -o nospace -C /opt/homebrew/bin/terraform terraform
+complete -o nospace -C $(brew --prefix)/bin/terraform terraform
 export AWS_DEFAULT_REGION=ap-southeast-2
