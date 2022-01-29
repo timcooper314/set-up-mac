@@ -15,14 +15,24 @@ alias ll="colorls --group-directories-first --almost-all --long"
 # Clear terminal
 alias c="clear"
 
-# Go back parent directory
-alias ..="cd .."
-alias ...="cd ../../../"
-alias ....="cd ../../../../"
-alias .....="cd ../../../../"
-
 # Calculator with math support
 alias bc="bc -l"
 
 # Show open ports
 alias ports="netstat -tulanp"
+
+alias ls='ls -G'                              # colorize `ls` output
+alias zshreload='source ~/.zshrc'             # reload ZSH
+alias grep='grep --color=auto'                # colorize `grep` output
+
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+
+alias rm='rm -i'                              # confirm removal
+alias cp='cp -i'                              # confirm copy
+alias mv='mv -i'                              # confirm move
+alias weather='curl v2.wttr.in'
+
+# update homebrew
+alias brewup='brew update; brew upgrade; brew cleanup; brew doctor'

@@ -1,0 +1,28 @@
+wget
+# Terminal tools and commands
+bash
+zsh
+bash-completion
+tmux
+tree
+rsync
+zsh-syntax-highlighting
+zsh-autosuggestions
+z
+starship
+# Dev tools
+git
+# Pyenv
+pyenv
+pyenv-virtualenv
+# Jenv
+jenv
+# Other
+node
+# Cloud tools
+awscli
+aws-sam-cli
+azure-cli
+hashicorp/tap/terraform
+# Font requirements
+svn

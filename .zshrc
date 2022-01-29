@@ -1,60 +1,74 @@
 #------------------
 # Zsh Config
 #------------------
+source ~/.aliases
 
-HISTFILE=~/.histfile
-HISTSIZE=10000
-SAVEHIST=5000
-setopt appendhistory autocd beep extendedglob nomatch notify
-bindkey -e
+#------------------
+# From setup script
+#------------------
+# Add Homebrew to PATH
+export PATH="$(brew --prefix)/bin:$PATH"
+
+# Ensure secure connections for brew
+export HOMEBREW_NO_INSECURE_REDIRECT=1
+export HOMEBREW_CASK_OPTS=--require-sha
+
+# Enable 'history' config in ZSH
+source ~/.zsh/history.zsh
+
+# Enable key bindings in ZSH
+source ~/.zsh/key-bindings.zsh
 
 # Auto-completion
-zstyle :compinstall filename '~/.zshrc'
+# Load completion config
+source ~/.zsh/completion.zsh
 
+# Initialize the completion system
 autoload -Uz compinit
-compinit
 
-#autoload -Uz bashcompinit
-#bashcompinit
-#source /usr/local/etc/profile.d/bash_completion.sh
-#------------------
-# Shell Variables
-#------------------
-# Add pyenv to PATH
-#export PATH="$HOME/.pyenv/bin:$PATH"
-#eval "$(pyenv init -)"
-#eval "$(pyenv virtualenv-init -)"
-
-# Set VS Code as default code editor
-export EDITOR=visual-studio-code
-
-#------------------
-# Zsh hooks
-#------------------
+# Cache completion if nothing changed - faster startup time
+typeset -i updated_at=$(date +'%j' -r ~/.zcompdump 2>/dev/null || stat -f '%Sm' -t '%j' ~/.zcompdump 2>/dev/null)
+if [ $(date +'%j') != $updated_at ]; then
+  compinit -i
+else
+  compinit -C -i
+fi
+# Enhanced form of menu completion called 'menu selection'
+zmodload -i zsh/complist
 
 # Enable the addition of zsh hook functions
 autoload -U add-zsh-hook
 
-#------------------
-# Miscellaneous
-#------------------
+# Zsh syntax highlighting
+source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+# Zsh auto-suggestions
+source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 # Allow the use of the z plugin to easily navigate directories
-source /usr/local/etc/profile.d/z.sh
+source $(brew --prefix)/etc/profile.d/z.sh
 
-# Set pure as a prompt
-autoload -U promptinit
-promptinit
-prompt pure
+# Use starship prompt
+eval "$(starship init zsh)"
+export STARSHIP_CONFIG=~/.config/starship.toml
 
-# Add colors to terminal commands (green command means that the command is valid)
-source /usr/local/share/zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+# Pyenv
+export PATH="$HOME/.pyenv/bin:$PATH"
+export PATH="$(pyenv root)/shims:$PATH"
+eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
 
-# Add auto suggestions
-source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+# General python
+export PYTHONDONTWRITEBYTECODE=1
 
-# Add colorls tab completion
-source $(dirname $(gem which colorls))/tab_complete.sh
+# Jenv
+export PATH="$HOME/.jenv/bin:$PATH"
+eval "$(jenv init -)"
 
-# Add aliases
-source ~/.aliases
+# colorls tab completion for flags
+source /Library/Ruby/Gems/2.6.0/gems/colorls-1.4.4/lib/tab_complete.sh
+
+# terraform
+autoload -U +X bashcompinit && bashcompinit
+complete -o nospace -C $(brew --prefix)/bin/terraform terraform
+export AWS_DEFAULT_REGION=ap-southeast-2

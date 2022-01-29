@@ -1,9 +1,0 @@
-name: python-sandbox
-dependencies:
-  - python
-  - ipykernel
-  - numpy
-  - pandas
-  - matplotlib
-  - scikit-learn
-  - pip
