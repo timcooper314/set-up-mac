@@ -26,3 +26,5 @@ azure-cli
 hashicorp/tap/terraform
 # Font requirements
 svn
+# Video tools
+handbrake

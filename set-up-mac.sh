@@ -174,6 +174,15 @@ defaults write com.apple.finder QuitMenuItem -bool true
 # Four-letter codes for the other view modes: `icnv`, `clmv`, `Flwv`
 defaults write com.apple.finder FXPreferredViewStyle -string "Nlsv"
 
+# Show hidden files
+defaults write com.apple.finder AppleShowAllFiles true
+
+# Show status bar (# of items and disk space)
+defaults write com.apple.finder ShowStatusBar true
+
+# Show path bar
+defaults write com.apple.finder ShowPathbar true
+
 killall -HUP Finder
 
 echo "Dock settings"
