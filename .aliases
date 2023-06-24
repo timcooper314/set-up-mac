@@ -18,11 +18,7 @@ alias c="clear"
 # Calculator with math support
 alias bc="bc -l"
 
-# Show open ports
-alias ports="netstat -tulanp"
-
 alias ls='ls -G'                              # colorize `ls` output
-alias zshreload='source ~/.zshrc'             # reload ZSH
 alias grep='grep --color=auto'                # colorize `grep` output
 
 alias ..='cd ..'

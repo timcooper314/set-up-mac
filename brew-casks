@@ -1,13 +1,13 @@
 # Dev tools
 docker
-sourcetree
 # Terminal
 hyper
 # Productivity
-# microsoft-office
-microsoft-edge
-# microsoft-teams
-# zoom
+microsoft-office
+# microsoft-edge
+microsoft-teams
+microsoft-outlook
+zoom
 # slack
 # alfred
 google-chrome
@@ -16,7 +16,7 @@ google-chrome
 # adoptopenjdk8
 # Text editors and IDEs
 visual-studio-code
-# dbeaver-community
+dbeaver-community
 # rstudio
 # azure-data-studio
 # sublime-text
@@ -32,4 +32,4 @@ pycharm-ce
 spotify
 # qgis
 # postman
-drawio
+# drawio

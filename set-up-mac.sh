@@ -7,11 +7,6 @@
 printf "Starting bootstrapping\n"
 printf "Running script using bash version: $BASH_VERSION"
 
-printf "Install XCode"
-
-xcode-select --install
-read -n 1 -s -p "Install XCode dialog requested. Install and then press any key to continue..."
-
 readarray PACKAGES < < <(grep -v '^#' < ./brew-packages)
 readarray CASKS < <(grep -v '^#' < ./brew-casks)
 readarray FONTS < <(grep -v '^#' < ./brew-fonts)
@@ -20,31 +15,31 @@ readarray VSCODE_EXTENSIONS < <(grep -v '^#' < ./vscode-extensions)
 # Make my directories
 echo "Making my directories under HOME (~), i.e. under $HOME"
 mkdir ~/bin
-mkdir ~/iso
-mkdir ~/lab
-mkdir ~/tmp
-mkdir ~/vm-share
+#mkdir ~/iso
+#mkdir ~/lab
+#mkdir ~/tmp
+#mkdir ~/vm-share
 mkdir ~/code
 mkdir ~/.config
 echo "Directory structure under $HOME is now:"
 ls -d */
 
 # SSH keys
-echo "Generating SSH keys"
-echo "You will be prompted for email, file location (enter for default) and passphrase"
-read -p "Enter SSH key email: " SSH_EMAIL
-ssh-keygen -t rsa -b 4096 -C "$SSH_EMAIL"
-echo "Adding SSH private key to ssh-agent and storing passphrase in keychain"
-echo "You will be prompted for the passphrase again"
-eval "$(ssh-agent -s)"
-cat <<EOT >> ~/.ssh/config
-Host *
-	AddKeysToAgent yes
-	UseKeychain yes
-	IdentityFile ~/.ssh/id_rsa
-EOT
-ssh-add -K ~/.ssh/id_rsa
-read -p "Copy key details and then press <return> to continue"
+#echo "Generating SSH keys"
+#echo "You will be prompted for email, file location (enter for default) and passphrase"
+#read -p "Enter SSH key email: " SSH_EMAIL
+#ssh-keygen -t rsa -b 4096 -C "$SSH_EMAIL"
+#echo "Adding SSH private key to ssh-agent and storing passphrase in keychain"
+#echo "You will be prompted for the passphrase again"
+#eval "$(ssh-agent -s)"
+#cat <<EOT >> ~/.ssh/config
+#Host *
+#	AddKeysToAgent yes
+#	UseKeychain yes
+#	IdentityFile ~/.ssh/id_rsa
+#EOT
+#ssh-add -K ~/.ssh/id_rsa
+#read -p "Copy key details and then press <return> to continue"
 
 # Install Homebrew itself
 echo "Installing Homebrew ..."
@@ -59,7 +54,7 @@ brew analytics off
 
 # Homebrew taps
 brew tap aws/tap
-brew tap hashicorp/tap
+#brew tap hashicorp/tap
 brew tap homebrew/cask-fonts
 
 printf "Installing packages...\n"
@@ -93,33 +88,29 @@ mkdir -p ~/.zsh
 echo "Downloading dot files..."
 # .aliases
 echo "Downloading .aliases"
-wget https://raw.githubusercontent.com/mitchstockdale/set-up-mac/master/.aliases -P ~
+wget https://raw.githubusercontent.com/timcooper314/set-up-mac/master/.aliases -P ~
 
 # .profile
 echo "Downloading .profile"
-wget https://raw.githubusercontent.com/mitchstockdale/set-up-mac/master/.profile -P ~
+wget https://raw.githubusercontent.com/timcooper314/set-up-mac/master/.profile -P ~
 
 # .bashrc
 echo "Downloading .bashrc"
-wget https://raw.githubusercontent.com/mitchstockdale/set-up-mac/master/.bashrc -P ~
+wget https://raw.githubusercontent.com/timcooper314/set-up-mac/master/.bashrc -P ~
 
 # .bash_profile
 echo "Downloading .bash_profile"
-wget https://raw.githubusercontent.com/mitchstockdale/set-up-mac/master/.bash_profile -P ~
+wget https://raw.githubusercontent.com/timcooper314/set-up-mac/master/.bash_profile -P ~
 
 # .zprofile
 echo "Downloading .bash_profile"
-wget https://raw.githubusercontent.com/mitchstockdale/set-up-mac/master/.zprofile -P ~
+wget https://raw.githubusercontent.com/timcooper314/set-up-mac/master/.zprofile -P ~
 
 echo "Downloading .zshrc"
-wget https://raw.githubusercontent.com/mitchstockdale/set-up-mac/master/.zshrc -P ~
+wget https://raw.githubusercontent.com/timcooper314/set-up-mac/master/.zshrc -P ~
 
 echo "Downloading .hyper.js"
-wget https://raw.githubusercontent.com/mitchstockdale/set-up-mac/master/.hyper.js -P ~
-
-# .vimrc (Vim)
-echo "Downloading .vimrc"
-wget https://raw.githubusercontent.com/mitchstockdale/set-up-mac/master/.vimrc -P ~
+wget https://raw.githubusercontent.com/timcooper314/set-up-mac/master/.hyper.js -P ~
 
 # Download history config
 wget https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/lib/history.zsh -P ~/.zsh
@@ -138,16 +129,16 @@ done
 # Pycharm/IntelliJ theme
 wget https://raw.githubusercontent.com/JordanForeman/idea-snazzy/master/snazzy.icls -P ~
 
-sudo gem install colorls
+#sudo gem install colorls
 
 # Configure Git
 echo "Configuring Git settings and aliases ..."
 read -p "Enter global default Git email: " GIT_EMAIL
 
 # Configure Git settings
-git config --global user.name "Mitch Stockdale"
+git config --global user.name "Tim Cooper"
 git config --global user.email "$GIT_EMAIL"
-git config --global core.editor "code"
+#git config --global core.editor "code"
 echo "... Done"
 
 # macOS settings
@@ -165,14 +156,14 @@ echo "Finder settings"
 defaults write NSGlobalDomain AppleShowAllExtensions -bool true
 
 # Display full POSIX path as Finder window title
-defaults write com.apple.finder _FXShowPosixPathInTitle -bool true
+#defaults write com.apple.finder _FXShowPosixPathInTitle -bool true
 
 # Finder: allow quitting via ⌘ + Q; doing so will also hide desktop icons
-defaults write com.apple.finder QuitMenuItem -bool true
+#defaults write com.apple.finder QuitMenuItem -bool true
 
 # Use list view in all Finder windows by default
-# Four-letter codes for the other view modes: `icnv`, `clmv`, `Flwv`
-defaults write com.apple.finder FXPreferredViewStyle -string "Nlsv"
+# Four-letter codes for the other view modes: `icnv`, `Nlsv`, `Flwv`
+defaults write com.apple.finder FXPreferredViewStyle -string "clmv"
 
 # Show hidden files
 defaults write com.apple.finder AppleShowAllFiles true
@@ -194,7 +185,7 @@ defaults write com.apple.dock autohide-delay -float 0
 defaults write com.apple.dock autohide -bool true
 
 # Only Show Open Applications In The Dock  
-defaults write com.apple.dock static-only -bool true
+#defaults write com.apple.dock static-only -bool true
 
 # Minimise to Dock using "scale" effect
 defaults write com.apple.dock mineffect -string scale
@@ -233,7 +224,7 @@ defaults -currentHost write com.apple.screensaver idleTime 300
 echo "Screenshot settings"
 
 # Save screenshots to the desktop
-defaults write com.apple.screencapture location -string "$HOME/Desktop"
+defaults write com.apple.screencapture location -string "$HOME/Desktop/Screenshots"
 
 # Save screenshots in PNG format (other options: BMP, GIF, JPG, PDF, TIFF)
 defaults write com.apple.screencapture type -string "png"

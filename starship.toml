@@ -8,3 +8,22 @@ success_symbol = "[➜](bold green)"     # The "success_symbol" segment is being
 # Disable the package module, hiding it from the prompt completely
 [package]
 disabled = true
+
+[aws]
+format = '| [$symbol$profile]($style)'
+style = "bold yellow"
+symbol = "🅰 "
+[aws.region_aliases]
+ap-southeast-2 = "au"
+
+[battery]
+full_symbol = "🔋 "
+charging_symbol = "⚡️ "
+discharging_symbol = "💀 "
+
+[python]
+format = '| [${symbol}${pyenv_prefix}(${version} )(\($virtualenv\) )]($style)'
+style="bold green"
+
+[git_branch]
+format = "| [$symbol$branch(:$remote_branch)]($style) "

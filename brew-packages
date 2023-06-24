@@ -3,9 +3,7 @@ wget
 bash
 zsh
 bash-completion
-tmux
 tree
-rsync
 zsh-syntax-highlighting
 zsh-autosuggestions
 z
@@ -15,16 +13,10 @@ git
 # Pyenv
 pyenv
 pyenv-virtualenv
-# Jenv
-jenv
 # Other
 node
+nvm
+ruby
 # Cloud tools
 awscli
 aws-sam-cli
-azure-cli
-hashicorp/tap/terraform
-# Font requirements
-svn
-# Video tools
-handbrake

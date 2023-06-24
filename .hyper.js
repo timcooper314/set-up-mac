@@ -6,13 +6,13 @@ module.exports = {
   config: {
     // active tab
     activeTab: '🚀',
-    
+
     // choose either `'stable'` for receiving highly polished,
     // or `'canary'` for less polished but more frequent updates
     updateChannel: 'stable',
 
     // default font size in pixels for all tabs
-    fontSize: 13,
+    fontSize: 14,
 
     // font family with optional fallbacks
     fontFamily: '"Fira Code", "Hack Nerd Font", Menlo, "DejaVu Sans Mono", Consolas, "Lucida Console", monospace',
@@ -36,7 +36,7 @@ module.exports = {
     cursorAccentColor: '#000',
 
     // `'BEAM'` for |, `'UNDERLINE'` for _, `'BLOCK'` for █
-    cursorShape: 'BLOCK',
+    cursorShape: 'BEAM',
 
     // set to `true` (without backticks and without quotes) for blinking cursor
     cursorBlink: false,
@@ -149,12 +149,15 @@ module.exports = {
   //   `hyperpower`
   //   `@company/project`
   //   `project#1.0.1`
+  //plugins: ["hyper-material-theme", "verminal"],
   plugins: [
     "hyper-snazzy",
     "hyper-font-ligatures",
     "hyper-search",
     "hypercwd",
     "hyper-active-tab"
+    // "hyper-rose-pine"
+    //"hyper-one-dark"
   ],
 
   // in development, you can create a directory under

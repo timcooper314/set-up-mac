@@ -61,14 +61,8 @@ eval "$(pyenv virtualenv-init -)"
 # General python
 export PYTHONDONTWRITEBYTECODE=1
 
-# Jenv
-export PATH="$HOME/.jenv/bin:$PATH"
-eval "$(jenv init -)"
-
 # colorls tab completion for flags
-source /Library/Ruby/Gems/2.6.0/gems/colorls-1.4.4/lib/tab_complete.sh
+# source /Library/Ruby/Gems/2.6.0/gems/colorls-1.4.4/lib/tab_complete.sh
+# export PATH=/usr/local/Cellar/ruby/2.4.1_1/bin:$PATH
 
-# terraform
-autoload -U +X bashcompinit && bashcompinit
-complete -o nospace -C $(brew --prefix)/bin/terraform terraform
 export AWS_DEFAULT_REGION=ap-southeast-2
