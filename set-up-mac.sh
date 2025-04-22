@@ -14,7 +14,7 @@ readarray VSCODE_EXTENSIONS < <(grep -v '^#' < ./vscode-extensions)
 
 # Make my directories
 echo "Making my directories under HOME (~), i.e. under $HOME"
-mkdir ~/bin
+#mkdir ~/bin
 #mkdir ~/iso
 #mkdir ~/lab
 #mkdir ~/tmp
@@ -28,7 +28,7 @@ ls -d */
 #echo "Generating SSH keys"
 #echo "You will be prompted for email, file location (enter for default) and passphrase"
 #read -p "Enter SSH key email: " SSH_EMAIL
-#ssh-keygen -t rsa -b 4096 -C "$SSH_EMAIL"
+#ssh-keygen -t ed25519 -C "$SSH_EMAIL"
 #echo "Adding SSH private key to ssh-agent and storing passphrase in keychain"
 #echo "You will be prompted for the passphrase again"
 #eval "$(ssh-agent -s)"
@@ -36,9 +36,9 @@ ls -d */
 #Host *
 #	AddKeysToAgent yes
 #	UseKeychain yes
-#	IdentityFile ~/.ssh/id_rsa
+#	IdentityFile ~/.ssh/id_ed25519
 #EOT
-#ssh-add -K ~/.ssh/id_rsa
+#ssh-add -K ~/.ssh/id_ed25519
 #read -p "Copy key details and then press <return> to continue"
 
 # Install Homebrew itself

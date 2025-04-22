@@ -66,3 +66,6 @@ export PYTHONDONTWRITEBYTECODE=1
 # export PATH=/usr/local/Cellar/ruby/2.4.1_1/bin:$PATH
 
 export AWS_DEFAULT_REGION=ap-southeast-2
+
+export NVM_DIR="$HOME/.nvm"
+source $(brew --prefix nvm)/nvm.sh
