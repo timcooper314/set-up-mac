@@ -7,11 +7,11 @@ source ~/.aliases
 # From setup script
 #------------------
 # Add Homebrew to PATH
-export PATH="$(brew --prefix)/bin:$PATH"
+export PATH="/opt/homebrew/bin:$PATH"
 
 # Ensure secure connections for brew
 export HOMEBREW_NO_INSECURE_REDIRECT=1
-export HOMEBREW_CASK_OPTS=--require-sha
+#export HOMEBREW_CASK_OPTS=--require-sha
 
 # Enable 'history' config in ZSH
 source ~/.zsh/history.zsh
@@ -50,7 +50,7 @@ source $(brew --prefix)/etc/profile.d/z.sh
 
 # Use starship prompt
 eval "$(starship init zsh)"
-export STARSHIP_CONFIG=~/.config/starship.toml
+export STARSHIP_CONFIG=~/starship.toml
 
 # Pyenv
 export PATH="$HOME/.pyenv/bin:$PATH"
