@@ -7,10 +7,34 @@
 printf "Starting bootstrapping\n"
 printf "Running script using bash version: $BASH_VERSION"
 
-readarray PACKAGES < < <(grep -v '^#' < ./brew-packages)
-readarray CASKS < <(grep -v '^#' < ./brew-casks)
-readarray FONTS < <(grep -v '^#' < ./brew-fonts)
-readarray VSCODE_EXTENSIONS < <(grep -v '^#' < ./vscode-extensions)
+PACKAGES=()
+while IFS= read -r line; do
+  [[ "$line" =~ ^#.*$ || -z "$line" ]] && continue
+  PACKAGES+=("$line")
+done < ./brew-packages
+
+CASKS=()
+while IFS= read -r line; do
+  [[ "$line" =~ ^#.*$ || -z "$line" ]] && continue
+  CASKS+=("$line")
+done < ./brew-casks
+
+FONTS=()
+while IFS= read -r line; do
+  [[ "$line" =~ ^#.*$ || -z "$line" ]] && continue
+  FONTS+=("$line")
+done < ./brew-fonts
+
+VSCODE_EXTENSIONS=()
+while IFS= read -r line; do
+  [[ "$line" =~ ^#.*$ || -z "$line" ]] && continue
+  VSCODE_EXTENSIONS+=("$line")
+done < ./vscode-extensions
+
+echo "PACKAGES:"
+printf '  %s\n' "${PACKAGES[@]}"
+echo "CASKS:"
+printf '  %s\n' "${CASKS[@]}"
 
 # Make my directories
 echo "Making my directories under HOME (~), i.e. under $HOME"
@@ -20,7 +44,7 @@ echo "Making my directories under HOME (~), i.e. under $HOME"
 #mkdir ~/tmp
 #mkdir ~/vm-share
 mkdir ~/code
-mkdir ~/.config
+# mkdir ~/.config
 echo "Directory structure under $HOME is now:"
 ls -d */
 
@@ -38,7 +62,7 @@ ls -d */
 #	UseKeychain yes
 #	IdentityFile ~/.ssh/id_ed25519
 #EOT
-#ssh-add -K ~/.ssh/id_ed25519
+#ssh-add --apple-use-keychain ~/.ssh/id_ed25519
 #read -p "Copy key details and then press <return> to continue"
 
 # Install Homebrew itself
@@ -55,7 +79,7 @@ brew analytics off
 # Homebrew taps
 brew tap aws/tap
 #brew tap hashicorp/tap
-brew tap homebrew/cask-fonts
+#brew tap homebrew/cask-fonts  # Deprecated
 
 printf "Installing packages...\n"
 brew install ${PACKAGES[@]}
@@ -88,29 +112,29 @@ mkdir -p ~/.zsh
 echo "Downloading dot files..."
 # .aliases
 echo "Downloading .aliases"
-wget https://raw.githubusercontent.com/timcooper314/set-up-mac/master/.aliases -P ~
+wget https://raw.githubusercontent.com/timcooper314/set-up-mac/tim-changes/.aliases -P ~
 
 # .profile
 echo "Downloading .profile"
-wget https://raw.githubusercontent.com/timcooper314/set-up-mac/master/.profile -P ~
+wget https://raw.githubusercontent.com/timcooper314/set-up-mac/tim-changes/.profile -P ~
 
 # .bashrc
 echo "Downloading .bashrc"
-wget https://raw.githubusercontent.com/timcooper314/set-up-mac/master/.bashrc -P ~
+wget https://raw.githubusercontent.com/timcooper314/set-up-mac/tim-changes/.bashrc -P ~
 
 # .bash_profile
 echo "Downloading .bash_profile"
-wget https://raw.githubusercontent.com/timcooper314/set-up-mac/master/.bash_profile -P ~
+wget https://raw.githubusercontent.com/timcooper314/set-up-mac/tim-changes/.bash_profile -P ~
 
 # .zprofile
 echo "Downloading .bash_profile"
-wget https://raw.githubusercontent.com/timcooper314/set-up-mac/master/.zprofile -P ~
+wget https://raw.githubusercontent.com/timcooper314/set-up-mac/tim-changes/.zprofile -P ~
 
 echo "Downloading .zshrc"
-wget https://raw.githubusercontent.com/timcooper314/set-up-mac/master/.zshrc -P ~
+wget https://raw.githubusercontent.com/timcooper314/set-up-mac/tim-changes/.zshrc -P ~
 
 echo "Downloading .hyper.js"
-wget https://raw.githubusercontent.com/timcooper314/set-up-mac/master/.hyper.js -P ~
+wget https://raw.githubusercontent.com/timcooper314/set-up-mac/tim-changes/.hyper.js -P ~
 
 # Download history config
 wget https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/lib/history.zsh -P ~/.zsh
@@ -182,7 +206,7 @@ echo "Dock settings"
 defaults write com.apple.dock autohide-delay -float 0
 
 # Automatically hide and show the Dock
-defaults write com.apple.dock autohide -bool true
+defaults write com.apple.dock autohide -bool false
 
 # Only Show Open Applications In The Dock  
 #defaults write com.apple.dock static-only -bool true
@@ -190,13 +214,13 @@ defaults write com.apple.dock autohide -bool true
 # Minimise to Dock using "scale" effect
 defaults write com.apple.dock mineffect -string scale
 
-defaults write com.apple.dock orientation -string left
+defaults write com.apple.dock orientation -string bottom
 
-defaults write com.apple.dock magnification -bool false
+defaults write com.apple.dock magnification -bool true
 
-defaults write com.apple.dock show-process-indicators -bool false
+defaults write com.apple.dock show-process-indicators -bool true
 
-defaults write com.apple.dock tilesize -float 40
+defaults write com.apple.dock tilesize -float 70
 
 defaults write com.apple.dock show-recents -bool false
 
